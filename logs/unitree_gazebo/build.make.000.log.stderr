@@ -1,0 +1,47 @@
+[01m[K/home/sailor/lidar_test/src/unitree_ros/unitree_gazebo/plugin/draw_force_plugin.cc:[m[K In member function ‘[01m[Kvirtual void gazebo::UnitreeDrawForcePlugin::Load(gazebo::rendering::VisualPtr, sdf::ElementPtr)[m[K’:
+[01m[K/home/sailor/lidar_test/src/unitree_ros/unitree_gazebo/plugin/draw_force_plugin.cc:47:95:[m[K [01;35m[Kwarning: [m[K‘[01m[Kgazebo::common::Color::Color(float, float, float, float)[m[K’ is deprecated [[01;35m[K-Wdeprecated-declarations[m[K]
+             this->line->AddPoint(ignition::math::Vector3d(0, 0, 0), common::Color(0, 1, 0, 1.0[01;35m[K)[m[K);
+                                                                                               [01;35m[K^[m[K
+In file included from [01m[K/usr/include/gazebo-9/gazebo/msgs/msgs.hh:38:0[m[K,
+                 from [01m[K/home/sailor/lidar_test/src/unitree_ros/unitree_gazebo/plugin/draw_force_plugin.cc:8[m[K:
+[01m[K/usr/include/gazebo-9/gazebo/common/Color.hh:77:15:[m[K [01;36m[Knote: [m[Kdeclared here
+       public: [01;36m[KColor[m[K(float _r, float _g, float _b, float _a = 1.0)
+               [01;36m[K^~~~~[m[K
+[01m[K/home/sailor/lidar_test/src/unitree_ros/unitree_gazebo/plugin/draw_force_plugin.cc:47:95:[m[K [01;35m[Kwarning: [m[K‘[01m[Kvirtual gazebo::common::Color::~Color()[m[K’ is deprecated [[01;35m[K-Wdeprecated-declarations[m[K]
+             this->line->AddPoint(ignition::math::Vector3d(0, 0, 0), common::Color(0, 1, 0, 1.0[01;35m[K)[m[K);
+                                                                                               [01;35m[K^[m[K
+In file included from [01m[K/usr/include/gazebo-9/gazebo/msgs/msgs.hh:38:0[m[K,
+                 from [01m[K/home/sailor/lidar_test/src/unitree_ros/unitree_gazebo/plugin/draw_force_plugin.cc:8[m[K:
+[01m[K/usr/include/gazebo-9/gazebo/common/Color.hh:98:23:[m[K [01;36m[Knote: [m[Kdeclared here
+       public: virtual [01;36m[K~[m[KColor() GAZEBO_DEPRECATED(9.0);
+                       [01;36m[K^[m[K
+[01m[K/home/sailor/lidar_test/src/unitree_ros/unitree_gazebo/plugin/draw_force_plugin.cc:47:96:[m[K [01;35m[Kwarning: [m[K‘[01m[Kvoid gazebo::rendering::DynamicLines::AddPoint(const Vector3d&, const gazebo::common::Color&)[m[K’ is deprecated [[01;35m[K-Wdeprecated-declarations[m[K]
+             this->line->AddPoint(ignition::math::Vector3d(0, 0, 0), common::Color(0, 1, 0, 1.0)[01;35m[K)[m[K;
+                                                                                                [01;35m[K^[m[K
+In file included from [01m[K/home/sailor/lidar_test/src/unitree_ros/unitree_gazebo/plugin/draw_force_plugin.cc:12:0[m[K:
+[01m[K/usr/include/gazebo-9/gazebo/rendering/DynamicLines.hh:64:20:[m[K [01;36m[Knote: [m[Kdeclared here
+       public: void [01;36m[KAddPoint[m[K(const ignition::math::Vector3d &_pt,
+                    [01;36m[K^~~~~~~~[m[K
+[01m[K/home/sailor/lidar_test/src/unitree_ros/unitree_gazebo/plugin/draw_force_plugin.cc:48:95:[m[K [01;35m[Kwarning: [m[K‘[01m[Kgazebo::common::Color::Color(float, float, float, float)[m[K’ is deprecated [[01;35m[K-Wdeprecated-declarations[m[K]
+             this->line->AddPoint(ignition::math::Vector3d(1, 1, 1), common::Color(0, 1, 0, 1.0[01;35m[K)[m[K);
+                                                                                               [01;35m[K^[m[K
+In file included from [01m[K/usr/include/gazebo-9/gazebo/msgs/msgs.hh:38:0[m[K,
+                 from [01m[K/home/sailor/lidar_test/src/unitree_ros/unitree_gazebo/plugin/draw_force_plugin.cc:8[m[K:
+[01m[K/usr/include/gazebo-9/gazebo/common/Color.hh:77:15:[m[K [01;36m[Knote: [m[Kdeclared here
+       public: [01;36m[KColor[m[K(float _r, float _g, float _b, float _a = 1.0)
+               [01;36m[K^~~~~[m[K
+[01m[K/home/sailor/lidar_test/src/unitree_ros/unitree_gazebo/plugin/draw_force_plugin.cc:48:95:[m[K [01;35m[Kwarning: [m[K‘[01m[Kvirtual gazebo::common::Color::~Color()[m[K’ is deprecated [[01;35m[K-Wdeprecated-declarations[m[K]
+             this->line->AddPoint(ignition::math::Vector3d(1, 1, 1), common::Color(0, 1, 0, 1.0[01;35m[K)[m[K);
+                                                                                               [01;35m[K^[m[K
+In file included from [01m[K/usr/include/gazebo-9/gazebo/msgs/msgs.hh:38:0[m[K,
+                 from [01m[K/home/sailor/lidar_test/src/unitree_ros/unitree_gazebo/plugin/draw_force_plugin.cc:8[m[K:
+[01m[K/usr/include/gazebo-9/gazebo/common/Color.hh:98:23:[m[K [01;36m[Knote: [m[Kdeclared here
+       public: virtual [01;36m[K~[m[KColor() GAZEBO_DEPRECATED(9.0);
+                       [01;36m[K^[m[K
+[01m[K/home/sailor/lidar_test/src/unitree_ros/unitree_gazebo/plugin/draw_force_plugin.cc:48:96:[m[K [01;35m[Kwarning: [m[K‘[01m[Kvoid gazebo::rendering::DynamicLines::AddPoint(const Vector3d&, const gazebo::common::Color&)[m[K’ is deprecated [[01;35m[K-Wdeprecated-declarations[m[K]
+             this->line->AddPoint(ignition::math::Vector3d(1, 1, 1), common::Color(0, 1, 0, 1.0)[01;35m[K)[m[K;
+                                                                                                [01;35m[K^[m[K
+In file included from [01m[K/home/sailor/lidar_test/src/unitree_ros/unitree_gazebo/plugin/draw_force_plugin.cc:12:0[m[K:
+[01m[K/usr/include/gazebo-9/gazebo/rendering/DynamicLines.hh:64:20:[m[K [01;36m[Knote: [m[Kdeclared here
+       public: void [01;36m[KAddPoint[m[K(const ignition::math::Vector3d &_pt,
+                    [01;36m[K^~~~~~~~[m[K

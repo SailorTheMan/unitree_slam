@@ -1,0 +1,46 @@
+In file included from [01m[K/opt/ros/melodic/include/ros/assert.h:35:0[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/common.h:36[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/publisher.h:32[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/node_handle.h:32[m[K,
+                 from [01m[K/home/sailor/lidar_test/src/livox_laser_simulation/include/livox_laser_simulation/livox_points_plugin.h:7[m[K,
+                 from [01m[K/home/sailor/lidar_test/src/livox_laser_simulation/src/livox_points_plugin.cpp:5[m[K:
+[01m[K/home/sailor/lidar_test/src/livox_laser_simulation/src/livox_points_plugin.cpp:[m[K In member function ‘[01m[Kvirtual void gazebo::LivoxPointsPlugin::OnNewLaserScans()[m[K’:
+[01m[K/home/sailor/lidar_test/src/livox_laser_simulation/src/livox_points_plugin.cpp:119:40:[m[K [01;31m[Kerror: [m[K‘[01m[KparentEnity[m[K’ was not declared in this scope
+         ROS_INFO_STREAM("parent_link"<<[01;31m[Kp[m[KarentEnity->WorldPose());
+                                        [01;31m[K^[m[K
+[01m[K/opt/ros/melodic/include/ros/console.h:358:64:[m[K [01;36m[Knote: [m[Kin definition of macro ‘[01m[KROSCONSOLE_PRINT_STREAM_AT_LOCATION_WITH_FILTER[m[K’
+     __rosconsole_print_stream_at_location_with_filter__ss__ << [01;36m[Kargs[m[K; \
+                                                                [01;36m[K^~~~[m[K
+[01m[K/opt/ros/melodic/include/ros/console.h:406:7:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROSCONSOLE_PRINT_STREAM_AT_LOCATION[m[K’
+       [01;36m[KROSCONSOLE_PRINT_STREAM_AT_LOCATION[m[K(args); \
+       [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/opt/ros/melodic/include/ros/console.h:579:43:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_LOG_STREAM_COND[m[K’
+ #define ROS_LOG_STREAM(level, name, args) [01;36m[KROS_LOG_STREAM_COND[m[K(true, level, name, args)
+                                           [01;36m[K^~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/opt/ros/melodic/include/rosconsole/macros_generated.h:111:31:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_LOG_STREAM[m[K’
+ #define ROS_INFO_STREAM(args) [01;36m[KROS_LOG_STREAM[m[K(::ros::console::levels::Info, ROSCONSOLE_DEFAULT_NAME, args)
+                               [01;36m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/sailor/lidar_test/src/livox_laser_simulation/src/livox_points_plugin.cpp:119:9:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_INFO_STREAM[m[K’
+         [01;36m[KR[m[KOS_INFO_STREAM("parent_link"<<parentEnity->WorldPose());
+         [01;36m[K^[m[K
+[01m[K/home/sailor/lidar_test/src/livox_laser_simulation/src/livox_points_plugin.cpp:119:40:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[KparentEntity[m[K’
+         ROS_INFO_STREAM("parent_link"<<[01;36m[Kp[m[KarentEnity->WorldPose());
+                                        [01;36m[K^[m[K
+[01m[K/opt/ros/melodic/include/ros/console.h:358:64:[m[K [01;36m[Knote: [m[Kin definition of macro ‘[01m[KROSCONSOLE_PRINT_STREAM_AT_LOCATION_WITH_FILTER[m[K’
+     __rosconsole_print_stream_at_location_with_filter__ss__ << [01;36m[Kargs[m[K; \
+                                                                [01;36m[K^~~~[m[K
+[01m[K/opt/ros/melodic/include/ros/console.h:406:7:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROSCONSOLE_PRINT_STREAM_AT_LOCATION[m[K’
+       [01;36m[KROSCONSOLE_PRINT_STREAM_AT_LOCATION[m[K(args); \
+       [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/opt/ros/melodic/include/ros/console.h:579:43:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_LOG_STREAM_COND[m[K’
+ #define ROS_LOG_STREAM(level, name, args) [01;36m[KROS_LOG_STREAM_COND[m[K(true, level, name, args)
+                                           [01;36m[K^~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/opt/ros/melodic/include/rosconsole/macros_generated.h:111:31:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_LOG_STREAM[m[K’
+ #define ROS_INFO_STREAM(args) [01;36m[KROS_LOG_STREAM[m[K(::ros::console::levels::Info, ROSCONSOLE_DEFAULT_NAME, args)
+                               [01;36m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/sailor/lidar_test/src/livox_laser_simulation/src/livox_points_plugin.cpp:119:9:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KROS_INFO_STREAM[m[K’
+         [01;36m[KR[m[KOS_INFO_STREAM("parent_link"<<parentEnity->WorldPose());
+         [01;36m[K^[m[K
+make[2]: *** [CMakeFiles/livox_laser_simulation.dir/src/livox_points_plugin.cpp.o] Error 1
+make[1]: *** [CMakeFiles/livox_laser_simulation.dir/all] Error 2
+make: *** [all] Error 2

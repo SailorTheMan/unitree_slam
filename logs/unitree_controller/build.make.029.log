@@ -1,0 +1,7 @@
+[35m[1mScanning dependencies of target unitree_move_kinetic[0m
+[ 25%] Built target unitree_controller
+[ 37%] [32mBuilding CXX object CMakeFiles/unitree_move_kinetic.dir/src/move_publisher.cpp.o[0m
+[ 62%] Built target unitree_external_force
+[ 87%] Built target unitree_servo
+[100%] [32m[1mLinking CXX executable /home/sailor/lidar_test/devel/.private/unitree_controller/lib/unitree_controller/unitree_move_kinetic[0m
+[100%] Built target unitree_move_kinetic

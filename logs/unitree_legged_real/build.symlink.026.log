@@ -1,0 +1,8 @@
+Linked: (/home/sailor/lidar_test/devel/.private/unitree_legged_real/share/unitree_legged_real/cmake/unitree_legged_realConfig-version.cmake, /home/sailor/lidar_test/devel/share/unitree_legged_real/cmake/unitree_legged_realConfig-version.cmake)
+Linked: (/home/sailor/lidar_test/devel/.private/unitree_legged_real/share/unitree_legged_real/cmake/unitree_legged_realConfig.cmake, /home/sailor/lidar_test/devel/share/unitree_legged_real/cmake/unitree_legged_realConfig.cmake)
+Linked: (/home/sailor/lidar_test/devel/.private/unitree_legged_real/lib/pkgconfig/unitree_legged_real.pc, /home/sailor/lidar_test/devel/lib/pkgconfig/unitree_legged_real.pc)
+Linked: (/home/sailor/lidar_test/devel/.private/unitree_legged_real/lib/unitree_legged_real/position_lcm, /home/sailor/lidar_test/devel/lib/unitree_legged_real/position_lcm)
+Linked: (/home/sailor/lidar_test/devel/.private/unitree_legged_real/lib/unitree_legged_real/walk_lcm, /home/sailor/lidar_test/devel/lib/unitree_legged_real/walk_lcm)
+Linked: (/home/sailor/lidar_test/devel/.private/unitree_legged_real/lib/unitree_legged_real/lcm_server_3_2, /home/sailor/lidar_test/devel/lib/unitree_legged_real/lcm_server_3_2)
+Linked: (/home/sailor/lidar_test/devel/.private/unitree_legged_real/lib/unitree_legged_real/torque_lcm, /home/sailor/lidar_test/devel/lib/unitree_legged_real/torque_lcm)
+Linked: (/home/sailor/lidar_test/devel/.private/unitree_legged_real/lib/unitree_legged_real/velocity_lcm, /home/sailor/lidar_test/devel/lib/unitree_legged_real/velocity_lcm)

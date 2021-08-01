@@ -1,0 +1,14 @@
+[  0%] Built target std_msgs_generate_messages_cpp
+[  0%] Built target std_msgs_generate_messages_lisp
+[  0%] Built target std_msgs_generate_messages_py
+[  0%] Built target std_msgs_generate_messages_nodejs
+[  0%] Built target std_msgs_generate_messages_eus
+[  0%] Built target _livox_ros_driver_generate_messages_check_deps_CustomMsg
+[  0%] Built target _livox_ros_driver_generate_messages_check_deps_CustomPoint
+[  7%] Built target livox_ros_driver_generate_messages_cpp
+[ 15%] Built target livox_ros_driver_generate_messages_nodejs
+[ 23%] Built target livox_ros_driver_generate_messages_lisp
+[ 42%] Built target livox_ros_driver_generate_messages_eus
+[ 46%] Built target livox_ros_driver_generate_messages_py
+[ 46%] Built target livox_ros_driver_generate_messages
+[100%] Built target livox_ros_driver_node
