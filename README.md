@@ -17,11 +17,8 @@ Install [Livox-SDK](https://github.com/Livox-SDK/Livox-SDK).
 
 `roslaunch lidar_slam unitree_bag.launch`</br>
 
-## Какой-то дебил че-то написал
-@Влад добавить инструкции по Livox
+## Run gazebo teleop:
 
-Чтобы запустить gazebo teleop:
-
-    roslaunch unitree_gazebo normal.launch rname:=a1
+    (optional) roslaunch unitree_gazebo normal.launch rname:=a1 
     rosrun unitree_controller unitree_move_teleop 
     rosrun teleop_twist_keyboard teleop_twist_keyboard.py 
