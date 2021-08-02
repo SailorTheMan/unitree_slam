@@ -2,6 +2,7 @@
     <arg name="bagfile" value="$(find lidar_slam)/bagfiles/lidar_circle.bag"/>
     
     <arg name="rname" default="a1"/>
+    <arg name="robot_path" value="(find $(arg rname)_description)"/>
     <arg name="dollar" value="$"/>
 
     <!-- Debug mode will hung up the robot, use "true" or "false" to switch it. -->
@@ -13,12 +14,10 @@
            DEBUG:=$(arg user_debug)"/>
 
     <!-- convert joint states to TF transforms for rviz, etc -->
-     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"
-          respawn="false" output="screen">
+     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
         <remap from="/joint_states" to="/$(arg rname)_gazebo/joint_states"/>
     </node>
-
-        <!-- cartographer --> 
+    <!-- cartographer --> 
     <node name="cartographer_node" pkg="cartographer_ros"
         type="cartographer_node" args="
             -configuration_directory $(find lidar_slam)/config

@@ -50,7 +50,7 @@ int main(int argc, char **argv)
 
     if(def_frame == coord::WORLD)
     {
-        model_state_pub.pose.position.x = 1.0;
+        model_state_pub.pose.position.x = 0.0;
         model_state_pub.pose.position.y = 0.0;
         model_state_pub.pose.position.z = 0.3;
         
