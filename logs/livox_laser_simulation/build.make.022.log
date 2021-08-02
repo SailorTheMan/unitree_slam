@@ -1,4 +1,0 @@
-[35m[1mScanning dependencies of target livox_laser_simulation[0m
-[ 33%] [32mBuilding CXX object CMakeFiles/livox_laser_simulation.dir/src/livox_points_plugin.cpp.o[0m
-[ 66%] [32m[1mLinking CXX shared library /home/sailor/lidar_test/devel/.private/livox_laser_simulation/lib/liblivox_laser_simulation.so[0m
-[100%] Built target livox_laser_simulation

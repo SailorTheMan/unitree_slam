@@ -1,7 +1,0 @@
-Linked: (/home/sailor/lidar_test/devel/.private/unitree_controller/share/unitree_controller/cmake/unitree_controllerConfig.cmake, /home/sailor/lidar_test/devel/share/unitree_controller/cmake/unitree_controllerConfig.cmake)
-Linked: (/home/sailor/lidar_test/devel/.private/unitree_controller/share/unitree_controller/cmake/unitree_controllerConfig-version.cmake, /home/sailor/lidar_test/devel/share/unitree_controller/cmake/unitree_controllerConfig-version.cmake)
-Linked: (/home/sailor/lidar_test/devel/.private/unitree_controller/lib/libunitree_controller.so, /home/sailor/lidar_test/devel/lib/libunitree_controller.so)
-Linked: (/home/sailor/lidar_test/devel/.private/unitree_controller/lib/pkgconfig/unitree_controller.pc, /home/sailor/lidar_test/devel/lib/pkgconfig/unitree_controller.pc)
-Linked: (/home/sailor/lidar_test/devel/.private/unitree_controller/lib/unitree_controller/unitree_servo, /home/sailor/lidar_test/devel/lib/unitree_controller/unitree_servo)
-Linked: (/home/sailor/lidar_test/devel/.private/unitree_controller/lib/unitree_controller/unitree_move_kinetic, /home/sailor/lidar_test/devel/lib/unitree_controller/unitree_move_kinetic)
-Linked: (/home/sailor/lidar_test/devel/.private/unitree_controller/lib/unitree_controller/unitree_external_force, /home/sailor/lidar_test/devel/lib/unitree_controller/unitree_external_force)

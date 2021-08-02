@@ -1,5 +1,0 @@
-[ 16%] Built target laserMapping
-[ 50%] Built target imu_process
-[ 66%] Built target laserOdometry
-[ 83%] Built target livox_repub
-[100%] Built target scanRegistration
