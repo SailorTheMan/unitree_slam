@@ -107,6 +107,13 @@
         <origin rpy="0 0 0"
                 xyz="0.25 0.0 0.105"/>
     </joint>
+    
+    <!-- Import macro for realsense-RS200 camera-->
+    <xacro:include filename="$(find realsense_gazebo_plugin)/urdf/realsense-RS200.macro.xacro"/>
+    <!-- Create camera instance -->
+    <xacro:realsense-rs200 prefix="" parent="trunk">
+        <origin xyz="0.28 0.0 0.04" rpy="0 0 0" />   
+    </xacro:realsense-rs200>
 
     <link name="imu_link">
         <inertial>
