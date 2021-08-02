@@ -1,13 +1,14 @@
 # ROS workspace for unitree a1 slam.
 
 ## Installing
-Install [unitree_ros_sdk](https://github.com/unitreerobotics/unitree_legged_sdk).
-Install [cartographer](https://google-cartographer-ros.readthedocs.io/en/latest/compilation.html).
-Install [Livox-SDK](https://github.com/Livox-SDK/Livox-SDK).
+* Install [unitree_ros_sdk](https://github.com/unitreerobotics/unitree_legged_sdk). </br>
+* Install [cartographer]
+`sudo apt-get install ros-melodic-cartographer-ros`</br>
+* Install [Livox-SDK](https://github.com/Livox-SDK/Livox-SDK).</br>
 
- `git clone https://github.com/SailorTheMan/lidar_test`
- `cd lidar_test`
- `catkin_make`
+ `git clone https://github.com/SailorTheMan/lidar_test`</br>
+ `cd lidar_test`</br>
+ `catkin_make`</br>
 
 ## Run sim
 
