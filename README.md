@@ -14,3 +14,10 @@ Install [unitree_ros_sdk] (https://github.com/unitreerobotics/unitree_legged_sdk
 ## Run sim with bag file
 
 `roslaunch lidar_slam unitree_bag.launch`
+@Влад добавить инструкции по Livox
+
+Чтобы запустить gazebo teleop:
+
+    roslaunch unitree_gazebo normal.launch rname:=a1
+    rosrun unitree_controller unitree_move_teleop 
+    rosrun teleop_twist_keyboard teleop_twist_keyboard.py 

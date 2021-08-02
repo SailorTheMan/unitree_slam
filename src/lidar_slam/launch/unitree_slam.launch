@@ -25,6 +25,8 @@
     <param name="robot_description"
            command="$(find xacro)/xacro --inorder '$(find lidar_slam)urdf/dawg.xacro' 
            DEBUG:=$(arg user_debug)"/>
+    
+
 
     <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
     <!-- Set trunk and joint positions at startup -->
