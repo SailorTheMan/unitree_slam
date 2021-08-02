@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: a1sdk
+Description: Description of a1sdk
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
