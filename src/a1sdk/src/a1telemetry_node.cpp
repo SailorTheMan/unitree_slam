@@ -9,11 +9,12 @@ Use of this source code is governed by the MPL-2.0 license, see LICENSE.
     // > each leg position              \/
     // > each foot sensor vector        \/
     // > IMU data                       \/
-    // > body height
+    // > body height                    \/
     // > foot/forward speed
 
     // FIXME:
     // > incorrect message stamps
+    // > rewrite imu image filling through memcpy
     
 
 
@@ -28,6 +29,7 @@ Use of this source code is governed by the MPL-2.0 license, see LICENSE.
 #include "geometry_msgs/WrenchStamped.h"
 #include "sensor_msgs/Imu.h"
 #include "geometry_msgs/PolygonStamped.h"       // represents leg positions
+#include "geometry_msgs/PointStamped.h"
 
 using namespace UNITREE_LEGGED_SDK;
 
@@ -41,7 +43,7 @@ public:
     ros::Publisher *leg_force_pub[4];
     ros::Publisher *imu_pub;
     ros::Publisher *leg_pose;
-
+    ros::Publisher *errPos_pub;
     int seq;
 };
 
@@ -81,7 +83,7 @@ void fillImuData(HighState &state, sensor_msgs::Imu &imuData, ROS_Publishers &ro
 }
 
 void fillPolyData(HighState &state, geometry_msgs::PolygonStamped &legPolygon, ROS_Publishers &rospub)
-{   // ugh, ugly
+{   
 
     /* test display
     state.footPosition2Body[0].x = 0.5; state.footPosition2Body[0].y = 0.2; state.footPosition2Body[0].z = -0.3;  
@@ -91,7 +93,7 @@ void fillPolyData(HighState &state, geometry_msgs::PolygonStamped &legPolygon, R
     {
         geometry_msgs::Point32 curLegPoint;
         std::memcpy(&curLegPoint, &state.footPosition2Body[leg], sizeof(Cartesian));
-        /*
+        /*  // ugh, ugly
         curLegPoint.x = state.footPosition2Body[leg].x;
         curLegPoint.y = state.footPosition2Body[leg].y;
         curLegPoint.z = state.footPosition2Body[leg].z;
@@ -111,6 +113,7 @@ void SendToROS(Custom *a1Interface, ROS_Publishers rospub)
     std_msgs::String msg;                       // chatter
     geometry_msgs::WrenchStamped legForces[4];  // foot forces
     geometry_msgs::PolygonStamped legPolygon;
+    geometry_msgs::PointStamped errPos;
     sensor_msgs::Imu imuData;
 
     msg.data = std::to_string(a1Interface->state.forwardPosition);
@@ -124,9 +127,16 @@ void SendToROS(Custom *a1Interface, ROS_Publishers rospub)
         legForces[leg].header.seq = rospub.seq;
         legForces[leg].header.stamp.now();
     }
-    
     fillImuData(state, imuData, rospub);
     fillPolyData(state, legPolygon, rospub);
+    
+    errPos.point.x = state.forwardPosition;
+    errPos.point.y = state.sidePosition;
+    errPos.point.z = state.bodyHeight;
+    errPos.header.frame_id = "base";
+    errPos.header.seq = rospub.seq;
+    errPos.header.stamp.now();
+    
 
 
     //RosPublisher.publish(msg);
@@ -136,6 +146,7 @@ void SendToROS(Custom *a1Interface, ROS_Publishers rospub)
     }
     rospub.imu_pub->publish(imuData);
     rospub.leg_pose->publish(legPolygon);
+    rospub.errPos_pub->publish(errPos);
 
     rospub.seq++;
     ros::spinOnce();
@@ -229,7 +240,6 @@ void Custom::RobotControl(ROS_Publishers rospub)
 
     if (ros::ok())
         SendToROS(this, rospub);
-    //std::cout << "sent to ROS"; 
     udp.SetSend(cmd);
 }
 
@@ -250,6 +260,7 @@ int main(int argc, char **argv)
     ros::Publisher RLf_pub = nh.advertise<geometry_msgs::WrenchStamped>("RL_force", 1000);
     ros::Publisher IMU_pub = nh.advertise<sensor_msgs::Imu>("IMU_data", 1000);
     ros::Publisher LegPose_pub = nh.advertise<geometry_msgs::PolygonStamped>("feet_polygon", 1000);
+    ros::Publisher errPos_pub = nh.advertise<geometry_msgs::PointStamped>("odom_error", 1000);
     
 
     /* ROS structure construction for loop */
@@ -261,6 +272,7 @@ int main(int argc, char **argv)
     rospub.leg_force_pub[3] = &RLf_pub;
     rospub.imu_pub = &IMU_pub;
     rospub.leg_pose = &LegPose_pub;
+    rospub.errPos_pub = &errPos_pub;
     rospub.seq = 0;
 
     Custom custom(HIGHLEVEL);
