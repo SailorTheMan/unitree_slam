@@ -40,7 +40,8 @@
 						21,
 						22,
 						23,
-						24
+						24,
+						25
 					]
 				},
 				{
@@ -130,7 +131,8 @@
 						21,
 						22,
 						23,
-						24
+						24,
+						25
 					]
 				},
 				{
@@ -233,6 +235,13 @@
 					"jsonFile" : "target-gtest_main-Debug-06fa1564804fafbdb7fc.json",
 					"name" : "gtest_main",
 					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ll_a1sdk_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ll_a1sdk_node-Debug-1e00f217b6309fe5c7e6.json",
+					"name" : "ll_a1sdk_node",
+					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
