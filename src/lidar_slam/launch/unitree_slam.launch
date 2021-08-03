@@ -30,12 +30,10 @@
            command="$(find xacro)/xacro --inorder '$(find lidar_slam)urdf/dawg.xacro' 
            DEBUG:=$(arg user_debug)"/>
     
-
-
     <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
     <!-- Set trunk and joint positions at startup -->
     <node pkg="gazebo_ros" type="spawn_model" name="urdf_spawner" respawn="false" output="screen"
-          args="-urdf -z 0.6 -model $(arg rname)_gazebo -param robot_description"/> 
+          args="-urdf -z 0.6 -model $(arg rname)_gazebo -param robot_description -unpause"/> 
     
 
     <node pkg="point_cloud_converter" type="point_cloud_converter_node" name="point_cloud_converter_node"
@@ -67,7 +65,7 @@
         <arg name="rname" value="$(arg rname)"/>
     </include>
 
-        <!-- cartographer --> 
+    <!-- cartographer --> 
     <node name="cartographer_node" pkg="cartographer_ros"
         type="cartographer_node" args="
             -configuration_directory $(find lidar_slam)/config
@@ -94,5 +92,14 @@
         <remap from="image_rect" to="/r200/camera/depth/image_raw"/>
         <remap from="points" to="/r200/camera/depth/points"/>
     </node>
+
+    
+    <!-- <node pkg="unitree_controller" type="unitree_move_kinetic" name="unitree_move_kinetic" />  -->
+    <node pkg="unitree_controller" type="unitree_move_teleop" name="unitree_move_teleop" /> 
+    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" 
+    output="screen" launch-prefix="gnome-terminal --command"/> 
+
+    <node name="playbag" pkg="rosbag" type="record"
+      args="-O $(find lidar_slam)/bagfiles/lidar_circle.bag /livox/lidar /a1_gazebo/joint_states /odom /trunk_imu" />
 
 </launch>

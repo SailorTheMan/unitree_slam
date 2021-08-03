@@ -68,7 +68,7 @@ Visualization Manager:
     - Alpha: 1
       Class: rviz/RobotModel
       Collision Enabled: false
-      Enabled: true
+      Enabled: false
       Links:
         All Links Enabled:
           {}
@@ -127,7 +127,7 @@ Visualization Manager:
       Use rainbow: true
       Value: true
     - Class: rviz/MarkerArray
-      Enabled: true
+      Enabled: false
       Marker Topic: /trajectory_node_list
       Name: Trajectories
       Namespaces:
@@ -135,7 +135,7 @@ Visualization Manager:
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
-      Enabled: true
+      Enabled: false
       Marker Topic: /landmark_poses_list
       Name: Landmark Poses
       Namespaces:
@@ -143,7 +143,7 @@ Visualization Manager:
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
-      Enabled: true
+      Enabled: false
       Marker Topic: /constraint_list
       Name: Constraints
       Namespaces:
@@ -154,7 +154,7 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: false
-      Enabled: true
+      Enabled: false
       Name: Grid
       Topic: /map
       Unreliable: false

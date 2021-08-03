@@ -98,7 +98,7 @@
     <joint name="imu_joint" type="fixed">
         <parent link="trunk"/>
         <child link="imu_link"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <origin rpy="0 0 0" xyz="0.25 0.0 0.105"/>
     </joint>
     
     <joint name="livox_base_joint" type="fixed">
