@@ -172,6 +172,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named ll_a1sdk_node
+
+# Build rule for target.
+ll_a1sdk_node: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ll_a1sdk_node
+.PHONY : ll_a1sdk_node
+
+# fast build rule for target.
+ll_a1sdk_node/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ll_a1sdk_node.dir/build.make CMakeFiles/ll_a1sdk_node.dir/build
+.PHONY : ll_a1sdk_node/fast
+
+#=============================================================================
 # Target rules for targets named a1sdk_node
 
 # Build rule for target.
@@ -496,6 +509,30 @@ gtest/fast:
 	$(MAKE) $(MAKESILENT) -f gtest/googlemock/gtest/CMakeFiles/gtest.dir/build.make gtest/googlemock/gtest/CMakeFiles/gtest.dir/build
 .PHONY : gtest/fast
 
+src/a1_lltelemetry_node.o: src/a1_lltelemetry_node.cpp.o
+.PHONY : src/a1_lltelemetry_node.o
+
+# target to build an object file
+src/a1_lltelemetry_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ll_a1sdk_node.dir/build.make CMakeFiles/ll_a1sdk_node.dir/src/a1_lltelemetry_node.cpp.o
+.PHONY : src/a1_lltelemetry_node.cpp.o
+
+src/a1_lltelemetry_node.i: src/a1_lltelemetry_node.cpp.i
+.PHONY : src/a1_lltelemetry_node.i
+
+# target to preprocess a source file
+src/a1_lltelemetry_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ll_a1sdk_node.dir/build.make CMakeFiles/ll_a1sdk_node.dir/src/a1_lltelemetry_node.cpp.i
+.PHONY : src/a1_lltelemetry_node.cpp.i
+
+src/a1_lltelemetry_node.s: src/a1_lltelemetry_node.cpp.s
+.PHONY : src/a1_lltelemetry_node.s
+
+# target to generate assembly for a file
+src/a1_lltelemetry_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ll_a1sdk_node.dir/build.make CMakeFiles/ll_a1sdk_node.dir/src/a1_lltelemetry_node.cpp.s
+.PHONY : src/a1_lltelemetry_node.cpp.s
+
 src/a1telemetry_node.o: src/a1telemetry_node.cpp.o
 .PHONY : src/a1telemetry_node.o
 
@@ -558,6 +595,10 @@ help:
 	@echo "... gmock_main"
 	@echo "... gtest"
 	@echo "... gtest_main"
+	@echo "... ll_a1sdk_node"
+	@echo "... src/a1_lltelemetry_node.o"
+	@echo "... src/a1_lltelemetry_node.i"
+	@echo "... src/a1_lltelemetry_node.s"
 	@echo "... src/a1telemetry_node.o"
 	@echo "... src/a1telemetry_node.i"
 	@echo "... src/a1telemetry_node.s"

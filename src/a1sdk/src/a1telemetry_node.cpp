@@ -67,10 +67,11 @@ public:
 
 void fillImuData(HighState &state, sensor_msgs::Imu &imuData, ROS_Publishers &rospub)
 {
+    //memcpy?
     imuData.linear_acceleration.x = state.imu.accelerometer[0];
     imuData.linear_acceleration.y = state.imu.accelerometer[1];
     imuData.linear_acceleration.z = state.imu.accelerometer[2];
-
+    
     imuData.orientation.w = state.imu.quaternion[0];
     imuData.orientation.x = state.imu.quaternion[1];
     imuData.orientation.y = state.imu.quaternion[2];
@@ -78,8 +79,7 @@ void fillImuData(HighState &state, sensor_msgs::Imu &imuData, ROS_Publishers &ro
     
     imuData.header.seq = rospub.seq;
     imuData.header.frame_id = "imu_link";
-    imuData.header.stamp.now();
-    
+    imuData.header.stamp = ros::Time::now();
 }
 
 void fillPolyData(HighState &state, geometry_msgs::PolygonStamped &legPolygon, ROS_Publishers &rospub)
@@ -93,7 +93,7 @@ void fillPolyData(HighState &state, geometry_msgs::PolygonStamped &legPolygon, R
     {
         geometry_msgs::Point32 curLegPoint;
         std::memcpy(&curLegPoint, &state.footPosition2Body[leg], sizeof(Cartesian));
-        /*  // ugh, ugly
+        /*  // ugggh, ugly
         curLegPoint.x = state.footPosition2Body[leg].x;
         curLegPoint.y = state.footPosition2Body[leg].y;
         curLegPoint.z = state.footPosition2Body[leg].z;
@@ -102,7 +102,7 @@ void fillPolyData(HighState &state, geometry_msgs::PolygonStamped &legPolygon, R
     }
     legPolygon.header.frame_id = "trunk";
     legPolygon.header.seq = rospub.seq;
-    legPolygon.header.stamp.now();
+    legPolygon.header.stamp = ros::Time::now();
 }
 
 
@@ -125,7 +125,7 @@ void SendToROS(Custom *a1Interface, ROS_Publishers rospub)
         legForces[leg].wrench.force.z = state.footForce[leg];       // may be either y or z  // footForceEst ??
         legForces[leg].header.frame_id = footFrames[leg];
         legForces[leg].header.seq = rospub.seq;
-        legForces[leg].header.stamp.now();
+        legForces[leg].header.stamp.now(); //= ros::Time::now();
     }
     fillImuData(state, imuData, rospub);
     fillPolyData(state, legPolygon, rospub);
@@ -135,7 +135,7 @@ void SendToROS(Custom *a1Interface, ROS_Publishers rospub)
     errPos.point.z = state.bodyHeight;
     errPos.header.frame_id = "base";
     errPos.header.seq = rospub.seq;
-    errPos.header.stamp.now();
+    errPos.header.stamp = ros::Time::now();
     
 
 
