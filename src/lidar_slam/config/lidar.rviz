@@ -83,7 +83,7 @@ Visualization Manager:
       Value: true
       Visual Enabled: true
     - Class: Submaps
-      Enabled: false
+      Enabled: true
       Fade-out distance: 1
       High Resolution: true
       Low Resolution: false
@@ -154,7 +154,7 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: map
       Draw Behind: false
-      Enabled: true
+      Enabled: false
       Name: Grid
       Topic: /map
       Unreliable: false
