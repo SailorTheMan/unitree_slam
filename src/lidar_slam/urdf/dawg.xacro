@@ -5,7 +5,7 @@
   <xacro:property name="laser_min_range" value="0.1"/>
   <xacro:property name="laser_max_range" value="20.0"/>
   <xacro:property name="horizontal_fov" value="70.4"/>
-  <xacro:property name="vertical_fov" value="4.2"/>
+  <xacro:property name="vertical_fov" value="77.2"/>
   <xacro:property name="ros_topic" value="scan"/>
   <xacro:property name="samples" value="24000"/>
   <xacro:property name="downsample" value="1"/>
@@ -47,11 +47,11 @@
           <max>${laser_max_range}</max>
           <resolution>${resolution}</resolution>
 			  </range>
-			  <noise>
+			  <!-- <noise>
           <type>gaussian</type>
           <mean>${noise_mean}</mean>
           <stddev>${noise_stddev}</stddev>
-			  </noise>
+			  </noise> -->
 			</ray>
       <visualize>${visualize}</visualize>
 		  <samples>${samples}</samples>
