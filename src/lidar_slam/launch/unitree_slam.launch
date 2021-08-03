@@ -76,7 +76,7 @@
     <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros" 
         type="cartographer_occupancy_grid_node" args="-resolution 0.05" />
 
-    <node pkg="unitree_controller" type="unitree_move_kinetic" name="unitree_move_kinetic" /> 
+    <node pkg="unitree_controller" type="unitree_move_teleop" name="unitree_move_teleop" /> 
 
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find lidar_slam)/config/lidar.rviz"/> 
 
