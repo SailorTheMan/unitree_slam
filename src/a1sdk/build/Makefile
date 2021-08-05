@@ -172,6 +172,32 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named a1_odom_fixer_node
+
+# Build rule for target.
+a1_odom_fixer_node: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 a1_odom_fixer_node
+.PHONY : a1_odom_fixer_node
+
+# fast build rule for target.
+a1_odom_fixer_node/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/a1_odom_fixer_node.dir/build.make CMakeFiles/a1_odom_fixer_node.dir/build
+.PHONY : a1_odom_fixer_node/fast
+
+#=============================================================================
+# Target rules for targets named rpyToEuler_node
+
+# Build rule for target.
+rpyToEuler_node: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 rpyToEuler_node
+.PHONY : rpyToEuler_node
+
+# fast build rule for target.
+rpyToEuler_node/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rpyToEuler_node.dir/build.make CMakeFiles/rpyToEuler_node.dir/build
+.PHONY : rpyToEuler_node/fast
+
+#=============================================================================
 # Target rules for targets named ll_a1sdk_node
 
 # Build rule for target.
@@ -533,6 +559,30 @@ src/a1_lltelemetry_node.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ll_a1sdk_node.dir/build.make CMakeFiles/ll_a1sdk_node.dir/src/a1_lltelemetry_node.cpp.s
 .PHONY : src/a1_lltelemetry_node.cpp.s
 
+src/a1_odom_fixer.o: src/a1_odom_fixer.cpp.o
+.PHONY : src/a1_odom_fixer.o
+
+# target to build an object file
+src/a1_odom_fixer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/a1_odom_fixer_node.dir/build.make CMakeFiles/a1_odom_fixer_node.dir/src/a1_odom_fixer.cpp.o
+.PHONY : src/a1_odom_fixer.cpp.o
+
+src/a1_odom_fixer.i: src/a1_odom_fixer.cpp.i
+.PHONY : src/a1_odom_fixer.i
+
+# target to preprocess a source file
+src/a1_odom_fixer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/a1_odom_fixer_node.dir/build.make CMakeFiles/a1_odom_fixer_node.dir/src/a1_odom_fixer.cpp.i
+.PHONY : src/a1_odom_fixer.cpp.i
+
+src/a1_odom_fixer.s: src/a1_odom_fixer.cpp.s
+.PHONY : src/a1_odom_fixer.s
+
+# target to generate assembly for a file
+src/a1_odom_fixer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/a1_odom_fixer_node.dir/build.make CMakeFiles/a1_odom_fixer_node.dir/src/a1_odom_fixer.cpp.s
+.PHONY : src/a1_odom_fixer.cpp.s
+
 src/a1telemetry_node.o: src/a1telemetry_node.cpp.o
 .PHONY : src/a1telemetry_node.o
 
@@ -556,6 +606,30 @@ src/a1telemetry_node.s: src/a1telemetry_node.cpp.s
 src/a1telemetry_node.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/a1sdk_node.dir/build.make CMakeFiles/a1sdk_node.dir/src/a1telemetry_node.cpp.s
 .PHONY : src/a1telemetry_node.cpp.s
+
+src/rpyToEuler.o: src/rpyToEuler.cpp.o
+.PHONY : src/rpyToEuler.o
+
+# target to build an object file
+src/rpyToEuler.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rpyToEuler_node.dir/build.make CMakeFiles/rpyToEuler_node.dir/src/rpyToEuler.cpp.o
+.PHONY : src/rpyToEuler.cpp.o
+
+src/rpyToEuler.i: src/rpyToEuler.cpp.i
+.PHONY : src/rpyToEuler.i
+
+# target to preprocess a source file
+src/rpyToEuler.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rpyToEuler_node.dir/build.make CMakeFiles/rpyToEuler_node.dir/src/rpyToEuler.cpp.i
+.PHONY : src/rpyToEuler.cpp.i
+
+src/rpyToEuler.s: src/rpyToEuler.cpp.s
+.PHONY : src/rpyToEuler.s
+
+# target to generate assembly for a file
+src/rpyToEuler.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rpyToEuler_node.dir/build.make CMakeFiles/rpyToEuler_node.dir/src/rpyToEuler.cpp.s
+.PHONY : src/rpyToEuler.cpp.s
 
 # Help Target
 help:
@@ -590,18 +664,26 @@ help:
 	@echo "... std_msgs_generate_messages_nodejs"
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... tests"
+	@echo "... a1_odom_fixer_node"
 	@echo "... a1sdk_node"
 	@echo "... gmock"
 	@echo "... gmock_main"
 	@echo "... gtest"
 	@echo "... gtest_main"
 	@echo "... ll_a1sdk_node"
+	@echo "... rpyToEuler_node"
 	@echo "... src/a1_lltelemetry_node.o"
 	@echo "... src/a1_lltelemetry_node.i"
 	@echo "... src/a1_lltelemetry_node.s"
+	@echo "... src/a1_odom_fixer.o"
+	@echo "... src/a1_odom_fixer.i"
+	@echo "... src/a1_odom_fixer.s"
 	@echo "... src/a1telemetry_node.o"
 	@echo "... src/a1telemetry_node.i"
 	@echo "... src/a1telemetry_node.s"
+	@echo "... src/rpyToEuler.o"
+	@echo "... src/rpyToEuler.i"
+	@echo "... src/rpyToEuler.s"
 .PHONY : help
 
 
