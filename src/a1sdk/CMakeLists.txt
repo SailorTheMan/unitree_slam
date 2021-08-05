@@ -144,6 +144,13 @@ target_link_libraries(${PROJECT_NAME}_node ${EXTRA_LIBS} ${catkin_LIBRARIES})
 
 add_executable(ll_${PROJECT_NAME}_node src/a1_lltelemetry_node.cpp)
 target_link_libraries(ll_${PROJECT_NAME}_node ${EXTRA_LIBS} ${catkin_LIBRARIES})
+
+add_executable(rpyToEuler_node src/rpyToEuler.cpp)
+target_link_libraries(rpyToEuler_node ${EXTRA_LIBS} ${catkin_LIBRARIES})
+
+add_executable(a1_odom_fixer_node src/a1_odom_fixer.cpp)
+target_link_libraries(a1_odom_fixer_node ${EXTRA_LIBS} ${catkin_LIBRARIES})
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
