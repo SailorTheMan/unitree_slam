@@ -594,10 +594,7 @@
       <static>1</static>
     </model>
     <state world_name='default'>
-      <sim_time>47 558000000</sim_time>
-      <real_time>47 802410848</real_time>
-      <wall_time>1627689129 111927112</wall_time>
-      <iterations>47558</iterations>
+      
       <model name='ground_plane'>
         <pose frame=''>0 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
