@@ -15,10 +15,7 @@ public:
 
     void Update(geometry_msgs::PointStamped &error_msg, geometry_msgs::PointStamped &fixed_msg)
     {
-        if 
 
-
-        fixed_msg.header = error_msg.header;
     }
 };
 
