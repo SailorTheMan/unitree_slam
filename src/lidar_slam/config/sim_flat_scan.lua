@@ -24,7 +24,7 @@ options = {
   odom_frame = "base",
   provide_odom_frame = false,
   publish_frame_projected_to_2d = true,
-  use_odometry = true,
+  use_odometry = false,
   use_nav_sat = false,
   use_landmarks = false,
   num_laser_scans = 0,
@@ -47,15 +47,13 @@ POSE_GRAPH.optimize_every_n_nodes = 0
 
 -- TRAJECTORY_BUILDER_2D.submaps.num_range_data = 20
 TRAJECTORY_BUILDER_2D.min_z = -0.2
-TRAJECTORY_BUILDER_2D.max_z = 1.0
+TRAJECTORY_BUILDER_2D.max_z = 0.1
 TRAJECTORY_BUILDER_2D.min_range = 0.01
 TRAJECTORY_BUILDER_2D.max_range = 20
 TRAJECTORY_BUILDER_2D.missing_data_ray_length = 20
 -- TRAJECTORY_BUILDER_2D.motion_filter.max_angle_radians = math.rad(0.5)
--- TRAJECTORY_BUILDER_2D.ceres_scan_matcher.translation_weight = 20
--- TRAJECTORY_BUILDER_2D.ceres_scan_matcher.rotation_weight = 13
-TRAJECTORY_BUILDER_2D.ceres_scan_matcher.translation_weight = 20
-TRAJECTORY_BUILDER_2D.ceres_scan_matcher.rotation_weight = 15
+TRAJECTORY_BUILDER_2D.ceres_scan_matcher.translation_weight = 1e6
+TRAJECTORY_BUILDER_2D.ceres_scan_matcher.rotation_weight = 1e6
 
 
 TRAJECTORY_BUILDER_2D.use_online_correlative_scan_matching = true

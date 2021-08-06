@@ -53,7 +53,7 @@
         </plugin>
     </gazebo>
 
-    <gazebo reference="livox_base">
+    <gazebo reference="trunk">
         <gravity>true</gravity>
         <sensor name="imu_sensor" type="imu">
             <always_on>true</always_on>
