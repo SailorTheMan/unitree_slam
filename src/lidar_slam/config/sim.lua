@@ -42,7 +42,7 @@ options = {
   landmarks_sampling_ratio = 1.,
 }
 MAP_BUILDER.use_trajectory_builder_2d = true
-TRAJECTORY_BUILDER_2D.use_imu_data = false
+TRAJECTORY_BUILDER_2D.use_imu_data = true
 POSE_GRAPH.optimize_every_n_nodes = 0
 
 -- TRAJECTORY_BUILDER_2D.submaps.num_range_data = 20

@@ -1,0 +1,28 @@
+<launch>
+    <!-- TF -->
+    <param name="robot_description"
+           command="$(find xacro)/xacro --inorder '$(find lidar_slam)urdf/dawg_real.xacro' 
+           DEBUG:=false"/>
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"/>
+
+    <!-- LIVOX -->
+    <include file="$(find livox_ros_driver)/launch/livox_lidar.launch">
+        <arg name="xfer_format" value="2"/>
+        <arg name="publish_freq" value="50"/>
+
+    </include> 
+
+    <!-- ODOM_TRACK -->
+    <node pkg="a1sdk" type="a1telemetry_node_teleop" 
+        name="a1telemetry_node_teleop" output="screen" launch-prefix="gnome-terminal --command" />
+
+    <!-- TELEOP -->
+    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" 
+        output="screen" launch-prefix="gnome-terminal --command"/> 
+    
+    <!--ROSBAG -->
+    <node name="playbag" pkg="rosbag" type="record"
+      args="-a -O $(find lidar_slam)/bagfiles/unuitree_real.bag" />
+
+</launch>
