@@ -81,7 +81,7 @@
     output="screen" launch-prefix="gnome-terminal --command"/> 
 
     <node name="playbag" pkg="rosbag" type="record"
-      args="-O $(find lidar_slam)/bagfiles/lidar_circle_imu_moved.bag /clock /scan /a1_gazebo/joint_states /odom /trunk_imu /flat_imu" />
+      args="-O $(find lidar_slam)/bagfiles/lidar_circle_flat.bag /clock /scan /a1_gazebo/joint_states /odom /trunk_imu /flat_imu" />
 
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find lidar_slam)/config/lidar.rviz"/> 
 
