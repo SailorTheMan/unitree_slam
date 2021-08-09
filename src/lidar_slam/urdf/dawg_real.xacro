@@ -49,7 +49,34 @@
       <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
     </joint>
   </xacro:macro>
+
+  <xacro:macro name="camera">
+
+    <link name="camera_link"/>
+    <link name="camera_pose_frame"/>
+    <joint name="camera_pose_joint" type="fixed">
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+      <parent link="camera_link"/>
+      <child link="camera_pose_frame"/>
+    </joint>
+
+    <link name="camera_odom_frame"/>
+    <joint name="odom_joint" type="fixed">
+      <parent link="camera_link"/>
+      <child link="camera_odom_frame"/>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    </joint>
+    
+    
+  </xacro:macro>
   <xacro:Livox_AVIA name="livox"/>
+  <xacro:camera/>
+  <joint name="camera_joint" type="fixed">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    <parent link="livox_base"/>
+    <child link="camera_link"/>
+  </joint>
+
   <xacro:include filename="unitree_real.xacro"/> 
   <xacro:unitree_link name="unitree"/>
   
