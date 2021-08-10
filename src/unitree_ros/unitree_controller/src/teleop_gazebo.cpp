@@ -12,13 +12,24 @@
 #include <tf/transform_listener.h>
 
 #include "nav_msgs/Odometry.h"
+#include "MiniPID/MiniPID.cpp"
+#include "std_msgs/Float32MultiArray.h"
 
 geometry_msgs::Twist teleop_cmd;
+float pid_msg[3] = {0};
 
 void cmd_velCallback(const geometry_msgs::Twist msg)
 {
     // ROS_INFO("I heard: [%f]", msg.linear.x);
     teleop_cmd = msg;
+}
+
+void pidCallback(const std_msgs::Float32MultiArray msg)
+{
+    // ROS_INFO("I heard: [%f]", msg.linear.x);
+    pid_msg[0] = msg.data[0];
+    pid_msg[1] = msg.data[1];
+    pid_msg[2] = msg.data[2];
 }
 
 int main(int argc, char **argv)
@@ -33,7 +44,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "move_publisher");
     ros::NodeHandle nh;
     ros::Subscriber sub = nh.subscribe("cmd_vel", 1000, cmd_velCallback);
-    
+    ros::Subscriber pid_sub = nh.subscribe("PID", 1000, pidCallback);    
 
     ros::Publisher move_publisher = nh.advertise<gazebo_msgs::ModelState>("/gazebo/set_model_state", 1000);
 
@@ -68,22 +79,12 @@ int main(int argc, char **argv)
         float i = 1.0;
         
 
-
+        double sensor = 0; 
+        double output = 0;
         while(ros::ok())
         {
             
-            if (teleop_cmd.linear.x == 0.0f){
-                teleop_cmd.linear.x = 0.00001f;
-            }
-            if (teleop_cmd.linear.y == 0.0f){
-                teleop_cmd.linear.y = 0.00001f;
-            }
-            if (teleop_cmd.angular.z == 0.0f){
-                teleop_cmd.angular.z = 0.000001f;
-            }
-            
-            
-            
+
             double roll, pitch, yaw;
             tf::Quaternion RQ2;  
             tf::quaternionMsgToTF(model_state_pub.pose.orientation,RQ2);
@@ -91,8 +92,16 @@ int main(int argc, char **argv)
             
             // ROS_INFO("teleop_cmd.linear.y: [%f]", teleop_cmd.linear.y);
             
+            
+            
+            MiniPID pid=MiniPID(pid_msg[0],pid_msg[1],pid_msg[2]);
+            // ROS_INFO("p: [%f], i: [%f], d: [%f]", pid_msg[0], pid_msg[1], pid_msg[2]);
+            // ROS_INFO("sensor1: [%f], teleop_cmd.linear.x1: [%f], output1: [%f]", sensor, teleop_cmd.linear.x, output);
+            
+            output=pid.getOutput(sensor, teleop_cmd.linear.x);
 
-
+            sensor += output;
+            ROS_INFO("sensor: [%f], teleop_cmd.linear.x: [%f], output: [%f]", sensor, teleop_cmd.linear.x, output);
             model_state_pub.pose.position.x += (teleop_cmd.linear.x / 500.0f) * cos((yaw)) - 
                                                 (teleop_cmd.linear.y / 500.0f) * sin((yaw));
             model_state_pub.pose.position.y += teleop_cmd.linear.x / 500.0f * sin((yaw)) + 
@@ -112,7 +121,7 @@ int main(int argc, char **argv)
             quat=tf::createQuaternionMsgFromRollPitchYaw(roll,pitch,new_yaw);
             
             model_state_pub.pose.orientation = quat;
-            ROS_INFO("roll: [%f], pitch: [%f], new_yaw: [%f]", roll, pitch, new_yaw);
+            // ROS_INFO("roll: [%f], pitch: [%f], new_yaw: [%f]", roll, pitch, new_yaw);
             
             // ROS_INFO("x: [%f], y: [%f], z: [%f], w: [%f]", model_state_pub.pose.orientation.x, model_state_pub.pose.orientation.y, model_state_pub.pose.orientation.z, model_state_pub.pose.orientation.w);
             

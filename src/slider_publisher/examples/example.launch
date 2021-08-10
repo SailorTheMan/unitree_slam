@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="file" default="MultiArray.yaml"/>
+    <node name="velocity_gui" pkg="slider_publisher" type="slider_publisher" output="screen" respawn="true">
+        <param name="file" value="$(find slider_publisher)/examples/$(arg file)"/>
+    </node>
+</launch>
