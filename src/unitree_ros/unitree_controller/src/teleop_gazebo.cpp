@@ -101,6 +101,7 @@ int main(int argc, char **argv)
             output=pid.getOutput(sensor, teleop_cmd.linear.x);
 
             sensor += output;
+            
             ROS_INFO("sensor: [%f], teleop_cmd.linear.x: [%f], output: [%f]", sensor, teleop_cmd.linear.x, output);
             model_state_pub.pose.position.x += (teleop_cmd.linear.x / 500.0f) * cos((yaw)) - 
                                                 (teleop_cmd.linear.y / 500.0f) * sin((yaw));

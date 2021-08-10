@@ -12,6 +12,9 @@ Use of this source code is governed by the MPL-2.0 license, see LICENSE.
 #include <unitree_legged_msgs/HighState.h>
 #include "convert.h"
 #include <geometry_msgs/Twist.h>
+#include "nav_msgs/Odometry.h"
+#include "MiniPID/MiniPID.cpp"
+#include "std_msgs/Float32MultiArray.h"
 
 #ifdef SDK3_1
 using namespace aliengo;
@@ -24,7 +27,7 @@ using namespace UNITREE_LEGGED_SDK;
 
 const int running_time = 30000;
 
-
+float pid_msg[3] = {0};
 geometry_msgs::Twist teleop_cmd;
 
 void cmd_velCallback(const geometry_msgs::Twist msg)
@@ -33,7 +36,13 @@ void cmd_velCallback(const geometry_msgs::Twist msg)
     teleop_cmd = msg;
 }
 
-
+void pidCallback(const std_msgs::Float32MultiArray msg)
+{
+    // ROS_INFO("I heard: [%f]", msg.linear.x);
+    pid_msg[0] = msg.data[0];
+    pid_msg[1] = msg.data[1];
+    pid_msg[2] = msg.data[2];
+}
 
 template<typename TLCM>
 void* update_loop(void* param)
@@ -69,65 +78,44 @@ int mainHelper(int argc, char *argv[], TLCM &roslcm)
     pthread_create(&tid, NULL, update_loop<TLCM>, &roslcm);
 
     ros::Subscriber sub = n.subscribe("cmd_vel", 1000, cmd_velCallback);
-
+    ros::Subscriber pid_sub = n.subscribe("PID", 1000, pidCallback);    
+    
+    
+    double output = 0;
     while (ros::ok()){
         motiontime = motiontime+2;
         roslcm.Get(RecvHighLCM);
         RecvHighROS = ToRos(RecvHighLCM);
         // printf("%f\n",  RecvHighROS.forwardSpeed);
+        
+
+        MiniPID pid=MiniPID(pid_msg[0],pid_msg[1],pid_msg[2]);
 
         SendHighROS.forwardSpeed = 0.0f;
         SendHighROS.sideSpeed = 0.0f;
         SendHighROS.rotateSpeed = 0.0f;
         SendHighROS.bodyHeight = 0.0f;
 
-        SendHighROS.mode = 0; // 0 , 1 , 2
         SendHighROS.roll  = 0;
         SendHighROS.pitch = 0;
         SendHighROS.yaw = 0;
 
-        if (motiontime<1000) {
-            ROS_INFO("mode 0");
-        }
-        if (motiontime>=1000 && motiontime<2000){
-            SendHighROS.mode = 2;
-            ROS_INFO("mode 1");
-        }
-        if (motiontime>=2000 && motiontime<2200){
-            SendHighROS.mode = 2;
-            ROS_INFO("mode 2");
-        }
-        if (motiontime>=2200 && motiontime<running_time){
-            SendHighROS.mode = 2;
-            if (teleop_cmd.linear.x == 0.0f){
-                SendHighROS.forwardSpeed = teleop_cmd.linear.x;
-            }
-            else {
-                SendHighROS.forwardSpeed = teleop_cmd.linear.x / 5.0f;
-            }
-            if (teleop_cmd.linear.y == 0.0f){
-                SendHighROS.sideSpeed = teleop_cmd.linear.y;
-            }
-            else {
-                SendHighROS.sideSpeed = teleop_cmd.linear.y / 5.0f;
-            }
-            if (teleop_cmd.angular.z == 0.0f){
-                SendHighROS.rotateSpeed = teleop_cmd.angular.z;
-            }
-            else {
-                SendHighROS.rotateSpeed = teleop_cmd.angular.z / 10.0f;
-            }           
-            ROS_INFO("mode 2   forward: [%f], side: [%f], rotate: [%f]", SendHighROS.forwardSpeed, SendHighROS.sideSpeed, SendHighROS.rotateSpeed);
-        }
-        if (motiontime>=running_time && motiontime<running_time+1000) {
-            SendHighROS.mode = 1;
-            ROS_INFO("mode 1");
-        }
-        if (motiontime>=running_time+1000) {
-            SendHighROS.mode = 0;
-            ROS_INFO("mode 0");
-        }
+        
+        double output_f=pid.getOutput(RecvHighROS.forwardSpeed, teleop_cmd.linear.x / 5.0);
+        double output_s=pid.getOutput(RecvHighROS.sideSpeed, teleop_cmd.linear.y  / 5.0);
+        double output_r=pid.getOutput(RecvHighROS.rotateSpeed, teleop_cmd.angular.z  / 10.0);
 
+        double cmd_f = RecvHighROS.forwardSpeed + output_f;
+        double cmd_s = RecvHighROS.sideSpeed + output_s;
+        double cmd_r = RecvHighROS.rotateSpeed + output_r;
+        
+
+        SendHighROS.forwardSpeed = cmd_f;
+        SendHighROS.sideSpeed = cmd_s;
+        SendHighROS.forwardSpeed = cmd_r;
+        
+        
+        ROS_INFO("output_f: [%f], teleop_cmd.linear.x: [%f], cmd_f: [%f]", output_f, teleop_cmd.linear.x / 5.0, cmd_f);
         SendHighLCM = ToLcm(SendHighROS, SendHighLCM);
         roslcm.Send(SendHighLCM);
         ros::spinOnce();

@@ -9,4 +9,12 @@
     <param name="robot_name" value="$(arg rname)"/>
     <param name="control_level" value="$(arg ctrl_level)"/>
     <param name="firmwork" value="$(arg firmwork)"/>
+    
+    <node pkg="unitree_legged_real" type="teleop_walk" name="teleop_walk" 
+    output="screen"/>
+    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" 
+    output="screen" launch-prefix="gnome-terminal --command"/> 
+
+    <include file="$(find slider_publisher)/examples/example.launch"/>
+    
 </launch>
