@@ -1,0 +1,29 @@
+<launch>
+
+    <arg name="user_debug" default="false"/>
+    
+    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find a1_description)/xacro/dawg_real.xacro'
+            DEBUG:=$(arg user_debug)"/>
+
+    <!-- for higher robot_state_publisher average rate-->
+    <!-- <param name="rate" value="1000"/> -->
+
+    <!-- send fake joint values -->
+    <node pkg="rqt_bag" type="rqt_bag" name="bagplayer">
+    </node>
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+        <param name="publish_frequency" type="double" value="1000.0"/>
+    </node>
+
+    <node pkg="rviz" type="rviz" name="rviz" respawn="false" output="screen"
+        args="-d $(find a1sdk)/launch/telemetry_draw.rviz"/>
+
+    
+    <node pkg="a1sdk" type="rpyToEuler_node" name="rpyToEuler_node">
+    </node>
+
+    <node pkg="a1sdk" type="a1_odom_fixer_node" name="a1_odom_fixer_node">
+    </node>
+
+</launch>

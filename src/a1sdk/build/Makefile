@@ -172,6 +172,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named pos_to_odom
+
+# Build rule for target.
+pos_to_odom: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pos_to_odom
+.PHONY : pos_to_odom
+
+# fast build rule for target.
+pos_to_odom/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pos_to_odom.dir/build.make CMakeFiles/pos_to_odom.dir/build
+.PHONY : pos_to_odom/fast
+
+#=============================================================================
 # Target rules for targets named a1_odom_fixer_node
 
 # Build rule for target.
@@ -261,6 +274,19 @@ doxygen: cmake_check_build_system
 doxygen/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/doxygen.dir/build.make CMakeFiles/doxygen.dir/build
 .PHONY : doxygen/fast
+
+#=============================================================================
+# Target rules for targets named draw_steps
+
+# Build rule for target.
+draw_steps: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 draw_steps
+.PHONY : draw_steps
+
+# fast build rule for target.
+draw_steps/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/draw_steps.dir/build.make CMakeFiles/draw_steps.dir/build
+.PHONY : draw_steps/fast
 
 #=============================================================================
 # Target rules for targets named clean_test_results
@@ -583,6 +609,30 @@ src/a1_odom_fixer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/a1_odom_fixer_node.dir/build.make CMakeFiles/a1_odom_fixer_node.dir/src/a1_odom_fixer.cpp.s
 .PHONY : src/a1_odom_fixer.cpp.s
 
+src/a1_pos_to_odom.o: src/a1_pos_to_odom.cpp.o
+.PHONY : src/a1_pos_to_odom.o
+
+# target to build an object file
+src/a1_pos_to_odom.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pos_to_odom.dir/build.make CMakeFiles/pos_to_odom.dir/src/a1_pos_to_odom.cpp.o
+.PHONY : src/a1_pos_to_odom.cpp.o
+
+src/a1_pos_to_odom.i: src/a1_pos_to_odom.cpp.i
+.PHONY : src/a1_pos_to_odom.i
+
+# target to preprocess a source file
+src/a1_pos_to_odom.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pos_to_odom.dir/build.make CMakeFiles/pos_to_odom.dir/src/a1_pos_to_odom.cpp.i
+.PHONY : src/a1_pos_to_odom.cpp.i
+
+src/a1_pos_to_odom.s: src/a1_pos_to_odom.cpp.s
+.PHONY : src/a1_pos_to_odom.s
+
+# target to generate assembly for a file
+src/a1_pos_to_odom.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pos_to_odom.dir/build.make CMakeFiles/pos_to_odom.dir/src/a1_pos_to_odom.cpp.s
+.PHONY : src/a1_pos_to_odom.cpp.s
+
 src/a1telemetry_node.o: src/a1telemetry_node.cpp.o
 .PHONY : src/a1telemetry_node.o
 
@@ -606,6 +656,30 @@ src/a1telemetry_node.s: src/a1telemetry_node.cpp.s
 src/a1telemetry_node.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/a1sdk_node.dir/build.make CMakeFiles/a1sdk_node.dir/src/a1telemetry_node.cpp.s
 .PHONY : src/a1telemetry_node.cpp.s
+
+src/draw_steps.o: src/draw_steps.cpp.o
+.PHONY : src/draw_steps.o
+
+# target to build an object file
+src/draw_steps.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/draw_steps.dir/build.make CMakeFiles/draw_steps.dir/src/draw_steps.cpp.o
+.PHONY : src/draw_steps.cpp.o
+
+src/draw_steps.i: src/draw_steps.cpp.i
+.PHONY : src/draw_steps.i
+
+# target to preprocess a source file
+src/draw_steps.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/draw_steps.dir/build.make CMakeFiles/draw_steps.dir/src/draw_steps.cpp.i
+.PHONY : src/draw_steps.cpp.i
+
+src/draw_steps.s: src/draw_steps.cpp.s
+.PHONY : src/draw_steps.s
+
+# target to generate assembly for a file
+src/draw_steps.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/draw_steps.dir/build.make CMakeFiles/draw_steps.dir/src/draw_steps.cpp.s
+.PHONY : src/draw_steps.cpp.s
 
 src/rpyToEuler.o: src/rpyToEuler.cpp.o
 .PHONY : src/rpyToEuler.o
@@ -666,11 +740,13 @@ help:
 	@echo "... tests"
 	@echo "... a1_odom_fixer_node"
 	@echo "... a1sdk_node"
+	@echo "... draw_steps"
 	@echo "... gmock"
 	@echo "... gmock_main"
 	@echo "... gtest"
 	@echo "... gtest_main"
 	@echo "... ll_a1sdk_node"
+	@echo "... pos_to_odom"
 	@echo "... rpyToEuler_node"
 	@echo "... src/a1_lltelemetry_node.o"
 	@echo "... src/a1_lltelemetry_node.i"
@@ -678,9 +754,15 @@ help:
 	@echo "... src/a1_odom_fixer.o"
 	@echo "... src/a1_odom_fixer.i"
 	@echo "... src/a1_odom_fixer.s"
+	@echo "... src/a1_pos_to_odom.o"
+	@echo "... src/a1_pos_to_odom.i"
+	@echo "... src/a1_pos_to_odom.s"
 	@echo "... src/a1telemetry_node.o"
 	@echo "... src/a1telemetry_node.i"
 	@echo "... src/a1telemetry_node.s"
+	@echo "... src/draw_steps.o"
+	@echo "... src/draw_steps.i"
+	@echo "... src/draw_steps.s"
 	@echo "... src/rpyToEuler.o"
 	@echo "... src/rpyToEuler.i"
 	@echo "... src/rpyToEuler.s"

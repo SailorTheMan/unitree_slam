@@ -9,9 +9,9 @@
     <!-- <param name="rate" value="1000"/> -->
 
     <!-- send fake joint values -->
-    <!-- <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
         <param name="use_gui" value="TRUE"/>
-    </node> -->
+    </node>
 
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
         <param name="publish_frequency" type="double" value="1000.0"/>
@@ -21,15 +21,11 @@
         args="-d $(find a1sdk)/launch/telemetry_draw.rviz"/>
 
     <!-- <remap from="rotation_quaternion" to="IMU_data" />  -->
-    <node pkg="a1sdk" type="a1telemetry_node_teleop" name="a1telemetry_node_teleop" output="screen" launch-prefix="gnome-terminal --command">
+    <node pkg="a1sdk" type="a1sdk_node" name="a1_state_publisher" output="screen" launch-prefix="gnome-terminal --command">
     </node>
 
     
     <node pkg="a1sdk" type="rpyToEuler_node" name="rpyToEuler_node" output="screen" launch-prefix="gnome-terminal --command">
     </node>
-
-    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" 
-    output="screen" launch-prefix="gnome-terminal --command"/> 
-
 
 </launch>

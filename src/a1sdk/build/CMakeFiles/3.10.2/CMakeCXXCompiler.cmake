@@ -17,11 +17,11 @@ set(CMAKE_CXX_SIMULATE_VERSION "")
 
 
 
-set(CMAKE_AR "/usr/bin/x86_64-linux-gnu-ar")
-set(CMAKE_CXX_COMPILER_AR "/usr/bin/x86_64-linux-gnu-gcc-ar-7")
-set(CMAKE_RANLIB "/usr/bin/x86_64-linux-gnu-ranlib")
-set(CMAKE_CXX_COMPILER_RANLIB "/usr/bin/x86_64-linux-gnu-gcc-ranlib-7")
-set(CMAKE_LINKER "/usr/bin/x86_64-linux-gnu-ld")
+set(CMAKE_AR "/usr/bin/ar")
+set(CMAKE_CXX_COMPILER_AR "/usr/bin/gcc-ar-7")
+set(CMAKE_RANLIB "/usr/bin/ranlib")
+set(CMAKE_CXX_COMPILER_RANLIB "/usr/bin/gcc-ranlib-7")
+set(CMAKE_LINKER "/usr/bin/ld")
 set(CMAKE_COMPILER_IS_GNUCXX 1)
 set(CMAKE_CXX_COMPILER_LOADED 1)
 set(CMAKE_CXX_COMPILER_WORKS TRUE)
