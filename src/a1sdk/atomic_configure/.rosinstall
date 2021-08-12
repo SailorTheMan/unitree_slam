@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/roser/catkin_ws/src/a1sdk/devel/setup.sh

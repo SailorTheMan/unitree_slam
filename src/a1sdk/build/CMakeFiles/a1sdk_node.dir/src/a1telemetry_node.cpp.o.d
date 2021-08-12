@@ -985,4 +985,15 @@ CMakeFiles/a1sdk_node.dir/src/a1telemetry_node.cpp.o: \
  /opt/ros/melodic/include/ros/topic.h \
  /opt/ros/melodic/include/ros/node_handle.h \
  /opt/ros/melodic/include/std_msgs/String.h \
- /opt/ros/melodic/include/ros/message_operations.h
+ /opt/ros/melodic/include/ros/message_operations.h \
+ /opt/ros/melodic/include/geometry_msgs/WrenchStamped.h \
+ /opt/ros/melodic/include/std_msgs/Header.h \
+ /opt/ros/melodic/include/geometry_msgs/Wrench.h \
+ /opt/ros/melodic/include/geometry_msgs/Vector3.h \
+ /opt/ros/melodic/include/sensor_msgs/Imu.h \
+ /opt/ros/melodic/include/geometry_msgs/Quaternion.h \
+ /opt/ros/melodic/include/geometry_msgs/PolygonStamped.h \
+ /opt/ros/melodic/include/geometry_msgs/Polygon.h \
+ /opt/ros/melodic/include/geometry_msgs/Point32.h \
+ /opt/ros/melodic/include/geometry_msgs/PointStamped.h \
+ /opt/ros/melodic/include/geometry_msgs/Point.h

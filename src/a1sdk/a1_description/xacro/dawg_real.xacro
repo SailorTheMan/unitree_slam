@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<robot name="unitree_a1" xmlns:xacro="http://ros.org/wiki/xacro">
+	
+  <xacro:property name="M_PI" value="3.14159"/> 
+  <xacro:property name="laser_min_range" value="0.1"/>
+  <xacro:property name="laser_max_range" value="20.0"/>
+  <xacro:property name="horizontal_fov" value="70.4"/>
+  <xacro:property name="vertical_fov" value="77.2"/>
+  <xacro:property name="ros_topic" value="scan"/>
+  <xacro:property name="samples" value="24000"/>
+  <xacro:property name="downsample" value="1"/>
+
+
+  <xacro:macro name="null_inertial">
+    <inertial>
+      <mass value="0.1"/>
+    <inertia ixx="0.01" ixy="0" ixz="0"
+          iyy="0.01" iyz="0"
+          izz="0.01"/>
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="Livox_AVIA" params="visualize:=True name:=livox">
+    <link name="${name}_base">
+      <xacro:null_inertial/>
+      <visual> 
+        <origin xyz="0.00 0 0.00" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://livox_laser_simulation/meshes/livox_mid40.dae">
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+          <mesh filename="package://livox_laser_simulation/meshes/livox_mid40.dae">
+          </mesh>
+          </geometry>
+      </collision>
+    </link>
+    <link name="${name}_frame">
+      <xacro:null_inertial/>
+    </link>
+
+    <joint name="${name}_to_${name}_base_joint" type="fixed">
+      <parent link="${name}_base"/>
+      <child link="${name}_frame"/>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="camera">
+
+    <link name="camera_link"/>
+    <link name="camera_pose_frame"/>
+    <joint name="camera_pose_joint" type="fixed">
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+      <parent link="camera_link"/>
+      <child link="camera_pose_frame"/>
+    </joint>
+
+    <link name="camera_odom_frame"/>
+    <joint name="odom_joint" type="fixed">
+      <parent link="camera_link"/>
+      <child link="camera_odom_frame"/>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    </joint>
+    
+    
+  </xacro:macro>
+  <xacro:Livox_AVIA name="livox"/>
+  <xacro:camera/>
+  <joint name="camera_joint" type="fixed">
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    <parent link="livox_base"/>
+    <child link="camera_link"/>
+  </joint>
+
+  <xacro:include filename="unitree_real.xacro"/> 
+  <xacro:unitree_link name="unitree"/>
+  
+</robot>

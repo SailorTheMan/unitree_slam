@@ -1,6 +1,11 @@
 [
 {
   "directory": "/home/roser/catkin_ws/src/a1sdk/build",
+  "command": "/usr/bin/x86_64-linux-gnu-g++-7 -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"a1sdk\\\" -I/home/roser/catkin_ws/src/a1sdk/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -g -std=c++11 -o CMakeFiles/pos_to_odom.dir/src/a1_pos_to_odom.cpp.o -c /home/roser/catkin_ws/src/a1sdk/src/a1_pos_to_odom.cpp",
+  "file": "/home/roser/catkin_ws/src/a1sdk/src/a1_pos_to_odom.cpp"
+},
+{
+  "directory": "/home/roser/catkin_ws/src/a1sdk/build",
   "command": "/usr/bin/x86_64-linux-gnu-g++-7 -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"a1sdk\\\" -I/home/roser/catkin_ws/src/a1sdk/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -g -std=c++11 -o CMakeFiles/a1_odom_fixer_node.dir/src/a1_odom_fixer.cpp.o -c /home/roser/catkin_ws/src/a1sdk/src/a1_odom_fixer.cpp",
   "file": "/home/roser/catkin_ws/src/a1sdk/src/a1_odom_fixer.cpp"
 },
@@ -18,6 +23,11 @@
   "directory": "/home/roser/catkin_ws/src/a1sdk/build",
   "command": "/usr/bin/x86_64-linux-gnu-g++-7 -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"a1sdk\\\" -I/home/roser/catkin_ws/src/a1sdk/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -g -std=c++11 -o CMakeFiles/a1sdk_node.dir/src/a1telemetry_node.cpp.o -c /home/roser/catkin_ws/src/a1sdk/src/a1telemetry_node.cpp",
   "file": "/home/roser/catkin_ws/src/a1sdk/src/a1telemetry_node.cpp"
+},
+{
+  "directory": "/home/roser/catkin_ws/src/a1sdk/build",
+  "command": "/usr/bin/x86_64-linux-gnu-g++-7 -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"a1sdk\\\" -I/home/roser/catkin_ws/src/a1sdk/include -I/opt/ros/melodic/include -I/opt/ros/melodic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -g -std=c++11 -o CMakeFiles/draw_steps.dir/src/draw_steps.cpp.o -c /home/roser/catkin_ws/src/a1sdk/src/draw_steps.cpp",
+  "file": "/home/roser/catkin_ws/src/a1sdk/src/draw_steps.cpp"
 },
 {
   "directory": "/home/roser/catkin_ws/src/a1sdk/build/gtest/googlemock",

@@ -67,8 +67,8 @@ public:
         if (phi > 3.1415) phi = -3.1415;
         if (phi < -3.1415) phi = 3.1415;
 
-        worldX = worldX + sin(phi) * state.forwardSpeed * fwdCoef + cos(phi) * state.sideSpeed * 0.4;  // or smthng like that
-        worldY = worldY + cos(phi) * state.forwardSpeed * fwdCoef - sin(phi) * state.sideSpeed * 0.4; 
+        worldX += 0.001 * (sin(phi) * state.forwardSpeed * fwdCoef + cos(phi) * state.sideSpeed * 0.4);  // or smthng like that
+        worldY += 0.001 * (cos(phi) * state.forwardSpeed * fwdCoef - sin(phi) * state.sideSpeed * 0.4); 
 
         position.x = worldX;
         position.y = worldY;
@@ -112,18 +112,17 @@ void fillImuData(HighState &state, sensor_msgs::Imu &imuData, ROS_Publishers &ro
 
     imuData.angular_velocity.z = state.rotateSpeed;
 
-    if (lastForwVelocity == 0.0) lastForwVelocity = state.forwardSpeed;
-    else if (lastSideVelocity == 0.0) lastSideVelocity = state.sideSpeed;
-    else {
-        imuData.linear_acceleration.y = (state.forwardSpeed - lastForwVelocity) / 0.02;         // TODO: pass dt here
-        imuData.linear_acceleration.x = (state.sideSpeed - lastSideVelocity) / 0.02;
-    } 
+    imuData.linear_acceleration.y = (state.forwardSpeed - lastForwVelocity) / 0.02;         // TODO: pass dt here
+    imuData.linear_acceleration.x = (state.sideSpeed - lastSideVelocity) / 0.02;
+ 
+    lastForwVelocity = state.forwardSpeed;
+    lastSideVelocity = state.sideSpeed;
     
     imuData.orientation.w = state.imu.quaternion[0];
     imuData.orientation.x = state.imu.quaternion[1];
     imuData.orientation.y = state.imu.quaternion[2];
     imuData.orientation.z = state.imu.quaternion[3];
-    
+
     imuData.header.seq = rospub.seq;
     imuData.header.frame_id = "imu_link";
     imuData.header.stamp = ros::Time::now();

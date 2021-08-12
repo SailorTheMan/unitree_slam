@@ -7,6 +7,15 @@ add_compile_options(-std=c++11)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
+
+list(APPEND CMAKE_PREFIX_PATH /opt/ros/melodic/share/)
+list(APPEND CMAKE_MODULE_PATH /opt/ros/melodic/share/)
+set(roscpp_DIR /opt/ros/melodic/share/roscpp/cmake/)
+set(rospy_DIR /opt/ros/melodic/share/rospy/cmake)
+
+# Verify
+message(STATUS "CMAKE_MODULE_PATH=${CMAKE_PREFIX_PATH}")
+
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
@@ -151,8 +160,12 @@ target_link_libraries(rpyToEuler_node ${EXTRA_LIBS} ${catkin_LIBRARIES})
 add_executable(a1_odom_fixer_node src/a1_odom_fixer.cpp)
 target_link_libraries(a1_odom_fixer_node ${EXTRA_LIBS} ${catkin_LIBRARIES})
 
-add_executable(a1telemetry_node_teleop src/a1telemetry_node_teleop.cpp)
-target_link_libraries(a1telemetry_node_teleop ${EXTRA_LIBS} ${catkin_LIBRARIES})
+add_executable(draw_steps src/draw_steps.cpp)
+target_link_libraries(draw_steps ${EXTRA_LIBS} ${catkin_LIBRARIES})
+
+add_executable(pos_to_odom src/a1_pos_to_odom.cpp)
+target_link_libraries(pos_to_odom ${EXTRA_LIBS} ${catkin_LIBRARIES})
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use

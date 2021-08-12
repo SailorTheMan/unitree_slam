@@ -1,5 +1,6 @@
 /home/roser/catkin_ws/src/a1sdk/build/CMakeFiles/install/strip.dir
 /home/roser/catkin_ws/src/a1sdk/build/CMakeFiles/rebuild_cache.dir
+/home/roser/catkin_ws/src/a1sdk/build/CMakeFiles/pos_to_odom.dir
 /home/roser/catkin_ws/src/a1sdk/build/CMakeFiles/a1_odom_fixer_node.dir
 /home/roser/catkin_ws/src/a1sdk/build/CMakeFiles/rpyToEuler_node.dir
 /home/roser/catkin_ws/src/a1sdk/build/CMakeFiles/test.dir
@@ -9,6 +10,7 @@
 /home/roser/catkin_ws/src/a1sdk/build/CMakeFiles/std_msgs_generate_messages_lisp.dir
 /home/roser/catkin_ws/src/a1sdk/build/CMakeFiles/install/local.dir
 /home/roser/catkin_ws/src/a1sdk/build/CMakeFiles/doxygen.dir
+/home/roser/catkin_ws/src/a1sdk/build/CMakeFiles/draw_steps.dir
 /home/roser/catkin_ws/src/a1sdk/build/CMakeFiles/clean_test_results.dir
 /home/roser/catkin_ws/src/a1sdk/build/CMakeFiles/std_msgs_generate_messages_cpp.dir
 /home/roser/catkin_ws/src/a1sdk/build/CMakeFiles/run_tests.dir
