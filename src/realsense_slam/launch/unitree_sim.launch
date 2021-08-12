@@ -34,11 +34,6 @@
     <node pkg="gazebo_ros" type="spawn_model" name="urdf_spawner" respawn="false" output="screen"
           args="-urdf -z 0.6 -model $(arg rname)_gazebo -param robot_description -unpause"/> 
 
-    <node name="flat_imu_node" pkg="lidar_slam" type="flat_imu_node" output="screen">
-        <remap from="imu_in" to="trunk_imu"/>
-        <remap from="imu_out" to="flat_imu"/>
-    </node>
-
     <!-- Load joint controller configurations from YAML file to parameter server -->
     <rosparam file="$(arg dollar)$(arg robot_path)/config/robot_control.yaml" command="load"/>
 
