@@ -49,6 +49,12 @@
 	  <param name="subscribe_depth"     type="bool"   value="true"/>
 	  <param name="subscribe_scan"      type="bool"   value="false"/>
 	  <param name="subscribe_scan_cloud"      type="bool"   value="false"/>
+    <param name="odom_sensor_sync" value="true"/>
+    <param name="map_always_update" value="true"/>
+    <param name="map_filter_angle " value="10"/>
+    
+    
+    
     
 
           <!-- When sending goals on /rtabmap/goal topic, use actionlib to communicate with move_base --> 
@@ -62,12 +68,6 @@
     <remap from="rgb/camera_info" to="$(arg camera_info_topic)"/>
     <remap from="odom" to="$(arg odom_topic)"/>
     <remap from="imu" to="/trunk_imu"/>
-
-
-          <!-- Fix odom covariance as in simulation the covariance in /odom topic is high (0.1 for linear and 0.05 for angular) -->
-          <!-- <param unless="$(arg rgbd_odometry)" name="odom_frame_id" value="odom"/> -->
-          <!-- <param unless="$(arg rgbd_odometry)" name="odom_tf_linear_variance" value="0.001"/> -->
-          <!-- <param unless="$(arg rgbd_odometry)" name="odom_tf_angular_variance" value="0.001"/> -->
   	  
   	  <!-- output -->
   	  <remap from="grid_map" to="/map"/>
@@ -88,7 +88,6 @@
 	  <param name="Mem/RehearsalSimilarity"      type="string" value="0.30"/>
 	  <param name="Reg/Force3DoF"                type="string" value="true"/>
 	  <param name="GridGlobal/MinSize"           type="string" value="20"/>
-    <param name="Optimizer/Slam2D" value="true" />
 
 	  
 	  <!-- localization mode -->
