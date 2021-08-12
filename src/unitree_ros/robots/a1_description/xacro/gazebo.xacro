@@ -24,11 +24,11 @@
     <gazebo>
         <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
             <alwaysOn>true</alwaysOn>
-            <updateRate>50.0</updateRate>
-            <topicName>odom</topicName>
+            <updateRate>10.0</updateRate>
+            <topicName>trunk_odom</topicName>
             <!-- <gaussianNoise>0.01</gaussianNoise> -->
-            <bodyName>base</bodyName>
-            <frameName>map</frameName>
+            <bodyName>trunk</bodyName>
+            <frameName>world</frameName>
             <xyzOffsets>0 0 0</xyzOffsets>
             <rpyOffsets>0 0 0</rpyOffsets>
         </plugin>

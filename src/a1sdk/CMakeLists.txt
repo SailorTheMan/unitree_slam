@@ -166,6 +166,9 @@ target_link_libraries(draw_steps ${EXTRA_LIBS} ${catkin_LIBRARIES})
 add_executable(pos_to_odom src/a1_pos_to_odom.cpp)
 target_link_libraries(pos_to_odom ${EXTRA_LIBS} ${catkin_LIBRARIES})
 
+add_executable(a1_telemetry_teleop src/a1telemetry_node_teleop.cpp)
+target_link_libraries(a1_telemetry_teleop ${EXTRA_LIBS} ${catkin_LIBRARIES})
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
