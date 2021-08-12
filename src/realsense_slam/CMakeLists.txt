@@ -36,7 +36,7 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(odom_handler_node src/odon_handler.cpp)
+add_executable(odom_handler_node src/odom_handler.cpp)
 add_dependencies(odom_handler_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(odom_handler_node ${catkin_LIBRARIES})
 
