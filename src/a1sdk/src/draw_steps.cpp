@@ -25,35 +25,51 @@ public:
     geometry_msgs::Point32 legPoses[4];
     bool legStatus[4];          // True => On the ground; False => Raised
     std::string frame;
+    uint seq;
 
     double contactThresh = 150;    // larger values usually mean ground contact
     double raiseThresh = -0.27;     // lower values usually mean ground contact
 
-    ros::Publisher fr_pub;
-    ros::Publisher fl_pub;
-    ros::Publisher rr_pub;
-    ros::Publisher rl_pub;
-/*
-    Forces Forces(this)
+    ros::Publisher leg_pubs[4];
+
+    Forces()
     {
-        
+        seq = 0;
+        frame = "trunk";
     }
-*/
+
     void updateLegStatus()
     {
         for (int leg = 0; leg < 4; leg++)
         {
+            // ternary each leg contact status detector
             legForces[leg] >= contactThresh && legPoses[leg].z <= raiseThresh ? legStatus[leg] = true : legStatus[leg] = false;
         }
     }
 
     void publishPoints()
     {
-        return;
+        geometry_msgs::PointStamped contactPoints[4];
+
+        for (int leg = 0; leg < 4; leg++)
+        {
+            if (legStatus[leg] == true)
+            {
+                contactPoints[leg].point.x = legPoses[leg].x;
+                contactPoints[leg].point.y = legPoses[leg].y;
+                contactPoints[leg].point.z = legPoses[leg].z;
+
+                contactPoints[leg].header.frame_id = frame;
+                contactPoints[leg].header.seq = seq;
+                contactPoints[leg].header.stamp = ros::Time::now();
+
+                leg_pubs[leg].publish(contactPoints[leg]);
+            }
+        }
+        seq++;
     }
 
 };
-
 Forces forcesHub;
 
 
@@ -97,20 +113,20 @@ int main(int argc, char **argv)
     fr_sub = n.subscribe("FR_force", 1000,  FRMsgCb);
     fl_sub = n.subscribe("FL_force", 1000,  FLMsgCb);
     rr_sub = n.subscribe("RR_force", 1000,  RRMsgCb);
-    rl_sub = n.subscribe("RL_foree", 1000,  RLMsgCb);
-
-    ros::Publisher fr_pub = n.advertise<geometry_msgs::PointStamped>("fr_step", 1000);
-    ros::Publisher fl_pub = n.advertise<geometry_msgs::PointStamped>("fl_step", 1000);
-    ros::Publisher rr_pub = n.advertise<geometry_msgs::PointStamped>("rr_step", 1000);
-    ros::Publisher rl_pub = n.advertise<geometry_msgs::PointStamped>("rl_step", 1000);
-
+    rl_sub = n.subscribe("RL_force", 1000,  RLMsgCb);
     poly_sub = n.subscribe("feet_polygon", 1000, poly_cb);
+
+    forcesHub.leg_pubs[0] = n.advertise<geometry_msgs::PointStamped>("fr_step", 1000);
+    forcesHub.leg_pubs[1] = n.advertise<geometry_msgs::PointStamped>("fl_step", 1000);
+    forcesHub.leg_pubs[2] = n.advertise<geometry_msgs::PointStamped>("rr_step", 1000);
+    forcesHub.leg_pubs[3] = n.advertise<geometry_msgs::PointStamped>("rl_step", 1000);
 
     int locSeq = 0;
 
     while (ros::ok())
     {
         forcesHub.updateLegStatus();
+        forcesHub.publishPoints();
 
         ros::spinOnce();
         loop_rate.sleep();
