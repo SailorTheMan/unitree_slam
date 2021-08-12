@@ -3,8 +3,7 @@ TrajectoryPlannerROS:
 # Robot Configuration Parameters
   max_vel_x: 0.18
   min_vel_x: 0.08
-  max_vel_y: 0.18
-  min_vel_y: 0.08
+  y_vels: [-0.5, -0.5, 0.5, 0.5]
 
   max_vel_theta:  1.0
   min_vel_theta: -1.0
@@ -24,5 +23,6 @@ TrajectoryPlannerROS:
 # Forward Simulation Parameters
   sim_time: 0.8
   vx_samples: 18
+  vy_samples: 18
   vtheta_samples: 20
   sim_granularity: 0.05
