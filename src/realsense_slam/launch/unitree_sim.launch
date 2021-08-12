@@ -11,7 +11,7 @@
     <arg name="debug" default="false"/>
     <!-- Debug mode will hung up the robot, use "true" or "false" to switch it. -->
     <arg name="user_debug" default="false"/>
-    <arg name="robot_desc_file" default="$(find lidar_slam)urdf/dawg_flat_scaner.xacro"/>
+    <arg name="robot_desc_file" default="$(find realsense_slam)xacro/unitree.xacro"/>
     <!-- <arg name="robot_desc_file" default="$(find lidar_slam)urdf/dawg.xacro"/> -->
 
 
@@ -53,7 +53,7 @@
     <!-- convert joint states to TF transforms for rviz, etc -->
      <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"
           respawn="false" output="screen">
-        <remap from="/joint_states" to="/$(arg rname)_gazebo/joint_sta1tes"/>
+        <remap from="/joint_states" to="/$(arg rname)_gazebo/joint_states"/>
     </node>
 
     <!-- load the parameter unitree_controller -->
@@ -61,29 +61,40 @@
         <arg name="rname" value="$(arg rname)"/>
     </include>
 
-    <!-- cartographer --> 
-    <node name="cartographer_node" pkg="cartographer_ros"
-        type="cartographer_node" args="
-            -configuration_directory $(find lidar_slam)/config
-            -configuration_basename sim_flat_scan.lua"
-        output="screen">
-        <remap from="points2" to="scan" />
-        <!-- <remap from="points2" to="livox/lidar" /> -->
-        <remap from="imu" to="flat_imu" />
+    <node name="odom_handler" pkg="realsense_slam" type="odom_handler_node"  output="screen" respawn="false" respawn_delay="0">
+        <remap from="odom_in" to="/t265/odom/sample"/>
+        <remap from="odom_out" to="/odom"/>      
     </node>
 
-    <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros" 
-        type="cartographer_occupancy_grid_node" args="-resolution 0.05" />
+    <node pkg="nodelet" type="nodelet"
+        args="load image_proc/crop_decimate record_player_manager"
+        name="my_decimator">
+        <param name="x_offset" type="int" value="0" />
+        <param name="y_offset" type="int" value="100" />
+        <param name="width" type="int" value="1920" />
+        <param name="height" type="int" value="480" />
 
-    <!-- <node pkg="unitree_controller" type="unitree_move_kinetic" name="unitree_move_kinetic" />  -->
+        <!-- remap input topics -->
+        <remap from="camera/image_raw" to="/d435/depth/image_raw"/>
+        <remap from="camera/camera_info" to="/d435/depth/camera_info"/>
+
+        <!-- remap output topics -->
+        <remap from="camera_out/image_raw" to="/d435_crop/depth/image_raw"/>
+        <remap from="camera_out/camera_info" to="/d435_crop/depth/camera_info"/>
+    </node>
+
+    <node pkg="nodelet" type="nodelet" args="manager"
+        name="record_player_manager" output="screen"/>
+    
+    <node pkg="nodelet" type="nodelet" name="point_cloud_xyz" 
+        args="load depth_image_proc/point_cloud_xyz record_player_manager">
+    <remap from="camera_info" to="/d435_crop/depth/camera_info"/>
+    <remap from="image_rect" to="/d435_crop/depth/image_raw"/>
+  </node>
+
     <node pkg="unitree_controller" type="unitree_move_teleop" name="unitree_move_teleop" /> 
-    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" 
-    output="screen" launch-prefix="gnome-terminal --command"/> 
-
-    <node name="playbag" pkg="rosbag" type="record"
-      args="-O $(find lidar_slam)/bagfiles/lidar_circle_flat.bag /clock /scan /a1_gazebo/joint_states /odom /trunk_imu /flat_imu" />
-
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find lidar_slam)/config/lidar.rviz"/> 
+    <!-- <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" 
+    output="screen" launch-prefix="gnome-terminal command"/>  -->
 
 
 </launch>
