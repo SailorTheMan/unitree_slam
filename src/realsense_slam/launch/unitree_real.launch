@@ -1,0 +1,64 @@
+<launch>
+
+    <arg name="paused" default="true"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="true"/>
+    <arg name="debug" default="false"/>
+    <arg name="robot_desc_file" default="$(find realsense_slam)xacro/unitree_real.xacro"/>
+
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find lidar_slam)/worlds/plaza.world"/>
+        <arg name="debug" value="$(arg debug)"/>
+        <arg name="gui" value="$(arg gui)"/>
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    </include>
+
+    <param name="robot_description"
+           command="$(find xacro)/xacro --inorder '$(arg robot_desc_file)'"/>
+    
+    <node pkg="gazebo_ros" type="spawn_model" name="urdf_spawner" respawn="false" output="screen"
+          args="-urdf -z 0.6 -model a1_gazebo -param robot_description -unpause"/> 
+
+     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"
+          respawn="false" output="screen">
+        <remap from="/joint_states" to="/a1_gazebo/joint_states"/>
+    </node>
+
+    <node name="odom_handler" pkg="realsense_slam" type="odom_handler_node"  output="screen" respawn="false" respawn_delay="0">
+        <remap from="odom_in" to="/fused_odometry"/>
+        <remap from="odom_out" to="/odom"/>      
+    </node>
+
+    <node pkg="nodelet" type="nodelet"
+        args="load image_proc/crop_decimate record_player_manager"
+        name="my_decimator">
+        <param name="x_offset" type="int" value="0" />
+        <param name="y_offset" type="int" value="100" />
+        <param name="width" type="int" value="1920" />
+        <param name="height" type="int" value="480" />
+
+        <!-- remap input topics -->
+        <remap from="camera/image_raw" to="/d435/depth/image_raw"/>
+        <remap from="camera/camera_info" to="/d435/depth/camera_info"/>
+
+        <!-- remap output topics -->
+        <remap from="camera_out/image_raw" to="/d435_crop/depth/image_raw"/>
+        <remap from="camera_out/camera_info" to="/d435_crop/depth/camera_info"/>
+    </node>
+
+    <node pkg="nodelet" type="nodelet" args="manager"
+        name="record_player_manager" output="screen"/>
+    
+    <node pkg="nodelet" type="nodelet" name="point_cloud_xyz" 
+        args="load depth_image_proc/point_cloud_xyz record_player_manager">
+    <remap from="camera_info" to="/d435_crop/depth/camera_info"/>
+    <remap from="image_rect" to="/d435_crop/depth/image_raw"/>
+  </node>
+
+  
+    <!-- <node pkg="unitree_legged_real" type="teleop_walk" name="teleop_walk" /> -->
+
+
+</launch>

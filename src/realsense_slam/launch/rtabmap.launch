@@ -38,6 +38,7 @@
   <arg name="depth_topic" default="/d435/depth/image_raw"/>
   <arg name="camera_info_topic" default="/d435/color/camera_info"/>
   <arg name="odom_topic" default="/odom"/>
+  <arg name="imu_topic" default="/trunk_imu"/>
   
   <arg name="wait_for_transform"  default="0.2"/> 
 
@@ -67,7 +68,7 @@
     <remap from="depth/image"     to="$(arg depth_topic)"/>
     <remap from="rgb/camera_info" to="$(arg camera_info_topic)"/>
     <remap from="odom" to="$(arg odom_topic)"/>
-    <remap from="imu" to="/trunk_imu"/>
+    <remap from="imu" to="$(arg imu_topic)"/>
   	  
   	  <!-- output -->
   	  <remap from="grid_map" to="/map"/>
