@@ -34,10 +34,10 @@
   <arg     if="$(arg localization)" name="args"  default=""/>
   <arg unless="$(arg localization)" name="args"  default="--delete_db_on_start"/>
 
-  <arg name="rgb_topic"   default="/d435/color/image_raw"/>
-  <arg name="depth_topic" default="/d435/depth/image_raw"/>
-  <arg name="camera_info_topic" default="/d435/color/camera_info"/>
-  <arg name="odom_topic" default="/odom"/>
+  <arg name="rgb_topic"   default="/d455/color/image_rect_raw"/>
+  <arg name="depth_topic" default="/d455/depth/image_rect_raw"/>
+  <arg name="camera_info_topic" default="/d455/color/camera_info"/>
+  <arg name="odom_topic" default="/t265/odom/sample"/>
   <arg name="imu_topic" default="/trunk_imu"/>
   
   <arg name="wait_for_transform"  default="0.2"/> 
