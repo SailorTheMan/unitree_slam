@@ -50,5 +50,6 @@
   <node name="pos_to_odom" pkg="a1sdk" type="pos_to_odom" output="screen">
     <remap from="fused_odom" to="/odom"/>
   </node>
+  
 
 </launch>

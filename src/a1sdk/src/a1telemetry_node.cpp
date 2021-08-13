@@ -1,7 +1,3 @@
-/************************************************************************
-Copyright (c) 2020, Unitree Robotics.Co.Ltd. All rights reserved.
-Use of this source code is governed by the MPL-2.0 license, see LICENSE.
-************************************************************************/
 
 
     // TODO: 
@@ -14,7 +10,7 @@ Use of this source code is governed by the MPL-2.0 license, see LICENSE.
 
     // FIXME:
     // > incorrect message stamps       \/
-    // > rewrite imu image filling through memcpy
+    // > rewrite imu msg filling through memcpy
     
 
 
@@ -67,8 +63,8 @@ public:
         if (phi > 3.1415) phi = -3.1415;
         if (phi < -3.1415) phi = 3.1415;
 
-        worldX = worldX + sin(phi) * state.forwardSpeed * fwdCoef + cos(phi) * state.sideSpeed * 0.4;  // or smthng like that
-        worldY = worldY + cos(phi) * state.forwardSpeed * fwdCoef - sin(phi) * state.sideSpeed * 0.4; 
+        worldX += 0.001 * (cos(phi) * state.forwardSpeed * fwdCoef - sin(phi) * state.sideSpeed * 0.4);  // or smthng like that
+        worldY += 0.001 * (sin(phi) * state.forwardSpeed * fwdCoef + cos(phi) * state.sideSpeed * 0.4); 
 
         position.x = worldX;
         position.y = worldY;
@@ -111,19 +107,18 @@ void fillImuData(HighState &state, sensor_msgs::Imu &imuData, ROS_Publishers &ro
     imuData.linear_acceleration.z = state.imu.accelerometer[2];
 
     imuData.angular_velocity.z = state.rotateSpeed;
-
-    if (lastForwVelocity == 0.0) lastForwVelocity = state.forwardSpeed;
-    else if (lastSideVelocity == 0.0) lastSideVelocity = state.sideSpeed;
-    else {
-        imuData.linear_acceleration.y = (state.forwardSpeed - lastForwVelocity) / 0.02;         // TODO: pass dt here
-        imuData.linear_acceleration.x = (state.sideSpeed - lastSideVelocity) / 0.02;
-    } 
+    // i dont remember why i did this
+    imuData.linear_acceleration.y = (state.forwardSpeed - lastForwVelocity) / 0.02;         // TODO: pass dt here
+    imuData.linear_acceleration.x = (state.sideSpeed - lastSideVelocity) / 0.02;
+ 
+    lastForwVelocity = state.forwardSpeed;
+    lastSideVelocity = state.sideSpeed;
     
     imuData.orientation.w = state.imu.quaternion[0];
     imuData.orientation.x = state.imu.quaternion[1];
     imuData.orientation.y = state.imu.quaternion[2];
     imuData.orientation.z = state.imu.quaternion[3];
-    
+
     imuData.header.seq = rospub.seq;
     imuData.header.frame_id = "imu_link";
     imuData.header.stamp = ros::Time::now();
@@ -146,7 +141,7 @@ void fillPolyData(HighState &state, geometry_msgs::PolygonStamped &legPolygon, R
 void SendToROS(Custom *a1Interface, ROS_Publishers rospub)
 {
     HighState state = a1Interface->state;
-
+    // Declaring messages
     std_msgs::String msg;                       // chatter
     geometry_msgs::WrenchStamped legForces[4];  // foot forces
     geometry_msgs::WrenchStamped legVels[4];
@@ -154,9 +149,9 @@ void SendToROS(Custom *a1Interface, ROS_Publishers rospub)
     geometry_msgs::PointStamped errPos;
     geometry_msgs::PointStamped nOdom;
     sensor_msgs::Imu imuData;
-
+    // Pub mode to /chatter
     msg.data = std::to_string(a1Interface->state.mode);
-    
+    // Filling forces and vels for each leg
     // FR FL RR RL
     for (int leg = 0; leg < 4; leg++)
     {
@@ -175,15 +170,16 @@ void SendToROS(Custom *a1Interface, ROS_Publishers rospub)
 
     }
     fillImuData(state, imuData, rospub);
+    // Leg position polygon
     fillPolyData(state, legPolygon, rospub);
-    
+    // Filling embedded odometry message
     errPos.point.x = state.forwardPosition;
     errPos.point.y = state.sidePosition;
     errPos.point.z = state.bodyHeight;
     errPos.header.frame_id = "base";
     errPos.header.seq = rospub.seq;
     errPos.header.stamp = ros::Time::now();
-
+    // Filling naive odometry message
     nOdom.point = NOdom.Update(state);
     nOdom.header.frame_id = "base";
     nOdom.header.seq = rospub.seq;

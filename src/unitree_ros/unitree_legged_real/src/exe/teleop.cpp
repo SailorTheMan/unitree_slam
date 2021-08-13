@@ -85,48 +85,14 @@ int mainHelper(int argc, char *argv[], TLCM &roslcm)
         SendHighROS.roll  = 0;
         SendHighROS.pitch = 0;
         SendHighROS.yaw = 0;
-
-        if (motiontime<1000) {
-            ROS_INFO("mode 0");
-        }
-        if (motiontime>=1000 && motiontime<2000){
-            SendHighROS.mode = 2;
-            ROS_INFO("mode 1");
-        }
-        if (motiontime>=2000 && motiontime<2200){
-            SendHighROS.mode = 2;
-            ROS_INFO("mode 2");
-        }
-        if (motiontime>=2200 && motiontime<running_time){
-            SendHighROS.mode = 2;
-            if (teleop_cmd.linear.x == 0.0f){
-                SendHighROS.forwardSpeed = teleop_cmd.linear.x;
-            }
-            else {
-                SendHighROS.forwardSpeed = teleop_cmd.linear.x / 5.0f;
-            }
-            if (teleop_cmd.linear.y == 0.0f){
-                SendHighROS.sideSpeed = teleop_cmd.linear.y;
-            }
-            else {
-                SendHighROS.sideSpeed = teleop_cmd.linear.y / 5.0f;
-            }
-            if (teleop_cmd.angular.z == 0.0f){
-                SendHighROS.rotateSpeed = teleop_cmd.angular.z;
-            }
-            else {
-                SendHighROS.rotateSpeed = teleop_cmd.angular.z / 10.0f;
-            }           
-            ROS_INFO("mode 2   forward: [%f], side: [%f], rotate: [%f]", SendHighROS.forwardSpeed, SendHighROS.sideSpeed, SendHighROS.rotateSpeed);
-        }
-        if (motiontime>=running_time && motiontime<running_time+1000) {
-            SendHighROS.mode = 1;
-            ROS_INFO("mode 1");
-        }
-        if (motiontime>=running_time+1000) {
-            SendHighROS.mode = 0;
-            ROS_INFO("mode 0");
-        }
+        SendHighROS.mode = 2; 
+       
+        SendHighROS.forwardSpeed = teleop_cmd.linear.x;
+    
+        SendHighROS.sideSpeed = teleop_cmd.linear.y;
+    
+        SendHighROS.rotateSpeed = teleop_cmd.angular.z;
+    
 
         SendHighLCM = ToLcm(SendHighROS, SendHighLCM);
         roslcm.Send(SendHighLCM);

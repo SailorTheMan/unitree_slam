@@ -1,6 +1,6 @@
 <launch>
     <!-- <arg name="bagfile" value="$(find lidar_slam)/bagfiles/lidar_circle.bag"/> -->
-    <arg name="bagfile" value="$(find lidar_slam)/bagfiles/lidar_circle_imu_moved.bag"/>
+    <arg name="bagfile" value="$(find lidar_slam)/bagfiles/lidar_circle_flat.bag"/>
 
     
     <arg name="rname" default="a1"/>

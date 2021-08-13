@@ -4,7 +4,7 @@
   <xacro:property name="M_PI" value="3.14159"/> 
   <xacro:property name="laser_min_range" value="0.1"/>
   <xacro:property name="laser_max_range" value="20.0"/>
-  <xacro:property name="horizontal_fov" value="70.4"/>
+  <xacro:property name="horizontal_fov" value="360"/>
   <xacro:property name="vertical_fov" value="4.2"/>
   <xacro:property name="ros_topic" value="scan"/>
   <xacro:property name="samples" value="24000"/>
@@ -24,11 +24,11 @@
     <sensor type="ray" name="lds_lfcd_sensor">
       <pose>0 0 0 0 0 0</pose>
       <visualize>true</visualize>
-      <update_rate>50</update_rate>
+      <update_rate>100</update_rate>
       <ray>
         <scan>
           <horizontal>
-            <samples>100</samples>
+            <samples>200</samples>
             <resolution>1</resolution>
             <min_angle>${-horizontal_fov/360*M_PI}</min_angle>
             <max_angle>${horizontal_fov/360*M_PI}</max_angle>
@@ -45,14 +45,14 @@
             <max>${laser_max_range}</max>
             <resolution>${resolution}</resolution>
         </range>   
-        <noise>
+        <!-- <noise>
           <type>gaussian</type>
           <mean>0.0</mean>
           <stddev>0.01</stddev>
-        </noise>
+        </noise> -->
       </ray>
       <plugin name="gazebo_ros_lds_lfcd_controller" filename="libgazebo_ros_velodyne_laser.so">
-        <topicName>scan</topicName>
+        <topicName>livox/lidar</topicName>
         <frameName>livox_base</frameName>
       </plugin>
     </sensor>
