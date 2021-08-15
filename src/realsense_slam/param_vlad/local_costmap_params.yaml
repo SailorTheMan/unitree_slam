@@ -1,9 +1,9 @@
 local_costmap:
-  global_frame: t265_odom_frame
-  robot_base_frame: d455_link
+  global_frame: odom
+  robot_base_frame: base
 
-  update_frequency: 10.0
-  publish_frequency: 10.0
+  update_frequency: 5.0
+  publish_frequency: 5.0
   transform_tolerance: 0.5  
 
   static_map: false  
