@@ -65,6 +65,7 @@
 
       <remap from="odom"            to="/odom"/>
       <remap from="scan"            to="/scan"/>
+      <remap from="imu" to="IMU_data"/>
     </node>
  
   </group>
