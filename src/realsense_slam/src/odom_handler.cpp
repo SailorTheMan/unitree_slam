@@ -44,7 +44,7 @@ void OdomHandlerNode::msgCallback(const nav_msgs::OdometryConstPtr odom_in)
 
     tf.header.stamp = odom_in->header.stamp;
     tf.header.frame_id = "odom";
-    tf.child_frame_id = "d_455_link";
+    tf.child_frame_id = "base";
 
     tf.transform.translation.x = odom_in->pose.pose.position.x;
     tf.transform.translation.y = odom_in->pose.pose.position.y;
@@ -61,7 +61,7 @@ void OdomHandlerNode::msgCallback(const nav_msgs::OdometryConstPtr odom_in)
 
     odom_out.header.stamp = odom_in->header.stamp;
     odom_out.header.frame_id = "odom";
-    odom_out.child_frame_id = "d_455_link";
+    odom_out.child_frame_id = "base";
 
     odom_out.pose = odom_in->pose;
     odom_out.twist = odom_in->twist;

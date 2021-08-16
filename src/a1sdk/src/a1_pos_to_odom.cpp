@@ -41,8 +41,8 @@ public:
         recvFlagIMU = false;
         recvFlagPoint = false;
 
-        lastFixedX = 0;
-        lastFixedY = 0;
+        lastFixedX = 0.0;
+        lastFixedY = 0.0;
 
         worldCoords.x = 0.0;
         worldCoords.y = 0.0;
@@ -100,14 +100,15 @@ public:
         geometry_msgs::Quaternion msg = lastRecIMU.orientation;
         tf::Quaternion quat;
         tf::quaternionMsgToTF(msg, quat);
+
         double roll, pitch, yaw;
         tf::Matrix3x3(quat).getRPY(roll, pitch, yaw);
         //std::cout << yaw << std::endl;
-
+        //std::cout << fixed_msg.point << std::endl;
         worldCoords.x += (fixed_msg.point.x - lastFixedX) * cos(yaw) - (fixed_msg.point.y - lastFixedY) * sin(yaw);  //.001 * (sin(phi) * state.forwardSpeed * fwdCoef + cos(phi) * state.sideSpeed * 0.4);
         worldCoords.y += (fixed_msg.point.x - lastFixedX) * sin(yaw) + (fixed_msg.point.y - lastFixedY) * cos(yaw);
         worldCoords.z = fixed_msg.point.z;
-        std::cout << worldCoords << std::endl;
+        // /std::cout << worldCoords << std::endl;
 
 
         odom_msgs.pose.pose.position = worldCoords;
@@ -120,6 +121,8 @@ public:
         lastFixedY = fixed_msg.point.y;
 
         Publish(odom_msgs);
+        recvFlagPoint = false;
+        recvFlagIMU = false;
         
     }
 

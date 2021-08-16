@@ -58,7 +58,7 @@
     <node if="$(arg rtabmapviz)" pkg="rtabmap_ros" type="rtabmapviz" name="rtabmapviz" args="-d $(find rtabmap_ros)/launch/config/rgbd_gui.ini" output="screen">
       <param name="subscribe_scan"   type="bool"   value="true"/>
       <param name="subscribe_odom"   type="bool"   value="true"/>
-      <param name="frame_id"         type="string" value="base_footprint"/>
+      <param name="frame_id"         type="string" value="base"/>
       <param name="approx_sync"      type="bool"   value="true"/>
 
       <remap from="odom"            to="/odom"/>
