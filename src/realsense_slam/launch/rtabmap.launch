@@ -1,128 +1,82 @@
 <launch>
-  <!-- 
-       Bringup Turtlebot:
-       $ roslaunch turtlebot_bringup minimal.launch
-       
-       Mapping:
-       $ roslaunch rtabmap_ros demo_turtlebot_mapping.launch
-       
-       Visualization:
-       $ roslaunch rtabmap_ros demo_turtlebot_rviz.launch
-       
-       This launch file is a one to one replacement of the gmapping_demo.launch in the 
-       "SLAM Map Building with TurtleBot" tutorial:
-       http://wiki.ros.org/turtlebot_navigation/Tutorials/indigo/Build%20a%20map%20with%20SLAM
-       
-       For localization-only after a mapping session, add argument "localization:=true" to
-       demo_turtlebot_mapping.launch line above. Move the robot around until it can relocalize in 
-       the previous map, then the 2D map should re-appear again. You can then follow the same steps 
-       from 3.3.2 of the "Autonomous Navigation of a Known Map with TurtleBot" tutorial:
-       http://wiki.ros.org/turtlebot_navigation/Tutorials/Autonomously%20navigate%20in%20a%20known%20map
- 
-       For turtlebot in simulation (Gazebo):
-         $ roslaunch turtlebot_gazebo turtlebot_world.launch
-         $ roslaunch rtabmap_ros demo_turtlebot_mapping.launch simulation:=true
-         $ roslaunch rtabmap_ros demo_turtlebot_rviz.launch
-  -->
-  
-  <arg name="database_path"     default="rtabmap.db"/>
-  <arg name="rgbd_odometry"     default="false"/>
-  <arg name="rtabmapviz"        default="false"/>
-  <arg name="localization"      default="false"/>
-  <arg name="simulation"        default="false"/>
-  <arg name="sw_registered"     default="false"/>
-  <arg     if="$(arg localization)" name="args"  default=""/>
-  <arg unless="$(arg localization)" name="args"  default="--delete_db_on_start"/>
+  <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
+  <arg name="open_rviz" default="true"/>
+  <arg name="rtabmapviz" default="false"/>
+  <arg name="move_forward_only" default="false"/>
 
-  <arg name="rgb_topic"   default="/d455/color/image_rect_raw"/>
-  <arg name="depth_topic" default="/d455/depth/image_rect_raw"/>
-  <arg name="camera_info_topic" default="/d455/color/camera_info"/>
-  <arg name="odom_topic" default="/t265/odom/sample"/>
-  <arg name="imu_topic" default="/trunk_imu"/>
-  
-  <arg name="wait_for_transform"  default="0.2"/> 
+  <arg name="with_camera" default="true"/>
+  <arg name="localization" default="false"/>
+  <arg name="database_path" default="~/.ros/rtabmap.db"/>
+  <arg     if="$(arg localization)" name="rtabmap_args" default=""/>
+  <arg unless="$(arg localization)" name="rtabmap_args" default="-d"/>
+
+
 
   <group ns="rtabmap">
-    <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="$(arg args)">
-	  <param name="database_path"       type="string" value="$(arg database_path)"/>
-	  <param name="frame_id"            type="string" value="base"/>
-	  <param name="wait_for_transform_duration"  type="double"   value="$(arg wait_for_transform)"/>
-	  <param name="subscribe_depth"     type="bool"   value="true"/>
-	  <param name="subscribe_scan"      type="bool"   value="false"/>
-	  <param name="subscribe_scan_cloud"      type="bool"   value="false"/>
-    <param name="odom_sensor_sync" value="true"/>
-    <param name="map_always_update" value="true"/>
-    <param name="map_filter_angle " value="10"/>
-    
-    
-    
-    
-
-          <!-- When sending goals on /rtabmap/goal topic, use actionlib to communicate with move_base --> 
-	  <param name="use_action_for_goal" type="bool" value="true"/>
-          <remap from="move_base"            to="/move_base"/>
-	
-	  <!-- inputs -->
-	  <remap from="scan"            to="/scan"/>
-	  <remap from="rgb/image"       to="$(arg rgb_topic)"/>
-    <remap from="depth/image"     to="$(arg depth_topic)"/>
-    <remap from="rgb/camera_info" to="$(arg camera_info_topic)"/>
-    <remap from="odom" to="$(arg odom_topic)"/>
-    <remap from="imu" to="$(arg imu_topic)"/>
-  	  
-  	  <!-- output -->
-  	  <remap from="grid_map" to="/map"/>
-	
-	  <!-- RTAB-Map's parameters: do "rosrun rtabmap rtabmap (double-dash)params" to see the list of available parameters. -->
-	  <param name="RGBD/ProximityBySpace"        type="string" value="true"/>   <!-- Local loop closure detection (using estimated position) with locations in WM -->
-	  <param name="RGBD/OptimizeFromGraphEnd"    type="string" value="false"/>  <!-- Set to false to generate map correction between /map and /odom -->
-	  <param name="Kp/MaxDepth"                  type="string" value="0.0"/>
-    <param name="Vis/MaxDepth"                 type="string" value="0"/>
-	  <param name="Reg/Strategy"                 type="string" value="0"/>      <!-- Loop closure transformation: 0=Visual, 1=ICP, 2=Visual+ICP -->
-	  <param name="Icp/CorrespondenceRatio"      type="string" value="0.3"/>
-	  <param name="Vis/MinInliers"               type="string" value="15"/>      <!-- 3D visual words minimum inliers to accept loop closure -->
-	  <param name="Vis/InlierDistance"           type="string" value="0.1"/>    <!-- 3D visual words correspondence distance -->
-	  <param name="RGBD/AngularUpdate"           type="string" value="0.1"/>    <!-- Update map only if the robot is moving -->
-	  <param name="RGBD/LinearUpdate"            type="string" value="0.1"/>    <!-- Update map only if the robot is moving -->
-	  <param name="RGBD/ProximityPathMaxNeighbors" type="string" value="0"/> 
-	  <param name="Rtabmap/TimeThr"              type="string" value="0"/>
-	  <param name="Mem/RehearsalSimilarity"      type="string" value="0.30"/>
-	  <param name="Reg/Force3DoF"                type="string" value="true"/>
-	  <param name="GridGlobal/MinSize"           type="string" value="20"/>
-
-	  
-	  <!-- localization mode -->
-	  <param     if="$(arg localization)" name="Mem/IncrementalMemory" type="string" value="false"/>
-	  <param unless="$(arg localization)" name="Mem/IncrementalMemory" type="string" value="true"/>
-	  <param name="Mem/InitWMWithAllNodes" type="string" value="$(arg localization)"/> 
+    <node if="$(eval model=='waffle')" pkg="rtabmap_ros" type="rgbd_sync" name="rgbd_sync" output="screen">
+      <remap from="rgb/image"         to="/d455/color/image_raw"/>
+      <remap from="depth/image"       to="/d455/depth/image_rect_raw"/>
+      <remap from="rgb/camera_info"   to="/d455/color/camera_info"/>
     </node>
-   
-    <!-- Odometry : ONLY for testing without the actual robot! /odom TF should not be already published. -->
-    <node if="$(arg rgbd_odometry)" pkg="rtabmap_ros" type="rgbd_odometry" name="rgbd_odometry" output="screen">
-      <param name="frame_id"                    type="string" value="base"/>
-      <param name="wait_for_transform_duration" type="double" value="$(arg wait_for_transform)"/>
-      <param name="Reg/Force3DoF"               type="string" value="true"/>
-      <param name="Vis/InlierDistance"          type="string" value="0.05"/>
+  
+    <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="$(arg rtabmap_args)">
+      <param name="database_path"       type="string" value="$(arg database_path)"/>
+      <param name="frame_id"            type="string" value="base"/>
+      <param name="subscribe_rgb"   type="bool" value="false"/>
+      <param name="subscribe_depth" type="bool" value="false"/>
+      <param     if="$(eval model=='waffle')" name="subscribe_rgbd" type="bool" value="true"/>
+      <param unless="$(eval model=='waffle')" name="subscribe_rgbd" type="bool" value="false"/>
+      <param name="subscribe_scan"      type="bool"   value="true"/>
+      <param name="approx_sync"         type="bool"   value="true"/>
       
-      <remap from="rgb/image"       to="$(arg rgb_topic)"/>
-      <remap from="depth/image"     to="$(arg depth_topic)"/>
-      <remap from="rgb/camera_info" to="$(arg camera_info_topic)"/>
-    </node>
-    
-    <!-- visualization with rtabmapviz -->
-    <node if="$(arg rtabmapviz)" pkg="rtabmap_ros" type="rtabmapviz" name="rtabmapviz" args="-d $(find rtabmap_ros)/launch/config/rgbd_gui.ini" output="screen">
-  	  <param name="subscribe_depth"             type="bool" value="true"/>
-      <param name="subscribe_scan"              type="bool" value="false"/>
-      <param name="frame_id"                    type="string" value="base"/>
-      <param name="wait_for_transform_duration" type="double" value="$(arg wait_for_transform)"/>
-	    <param name="queue_size" type="int" value="20"/>
 
-      <remap from="rgb/image"       to="$(arg rgb_topic)"/>
-      <remap from="depth/image"     to="$(arg depth_topic)"/>
-      <remap from="rgb/camera_info" to="$(arg camera_info_topic)"/>
+      <!-- use actionlib to send goals to move_base --> 
+      <param name="use_action_for_goal" type="bool" value="true"/>
+      <remap from="move_base"            to="/move_base"/>
+	
+      <!-- inputs -->
       <remap from="scan"            to="/scan"/>
-      <remap from="odom"            to="/odom"/>
+      <remap from="odom"            to="/t265/odom/sample"/>
+      <remap from="rgbd_image"       to="rgbd_image"/>
+
+      <!-- output -->
+      <remap from="grid_map" to="/map"/>
+	
+      <!-- RTAB-Map's parameters -->
+      <param name="Reg/Strategy"                 type="string" value="1"/>
+      <param name="Reg/Force3DoF"                type="string" value="true"/>
+      <param name="GridGlobal/MinSize"           type="string" value="20"/>
+
+      <!-- localization mode -->
+      <param     if="$(arg localization)" name="Mem/IncrementalMemory" type="string" value="false"/>
+      <param unless="$(arg localization)" name="Mem/IncrementalMemory" type="string" value="true"/>
+
+      <param name="proj_max_ground_height" value="0.1"/>
+      <param name="proj_max_height" value="2.0"/>
+
+
     </node>
-    
+  <!-- visualization with rtabmapviz -->
+    <node if="$(arg rtabmapviz)" pkg="rtabmap_ros" type="rtabmapviz" name="rtabmapviz" args="-d $(find rtabmap_ros)/launch/config/rgbd_gui.ini" output="screen">
+      <param name="subscribe_scan"   type="bool"   value="true"/>
+      <param name="subscribe_odom"   type="bool"   value="true"/>
+      <param name="frame_id"         type="string" value="base_footprint"/>
+      <param name="approx_sync"      type="bool"   value="true"/>
+
+      <remap from="odom"            to="/odom"/>
+      <remap from="scan"            to="/scan"/>
+    </node>
+ 
   </group>
+
+
+
+  <node pkg="nodelet" type="nodelet"
+        args="standalone depthimage_to_laserscan/DepthImageToLaserScanNodelet"
+        name="dc2scan">
+        <param name="output_frame_id" type="str" value="d455_link" />
+        <remap from="image" to="/d455/depth/image_rect_raw"/>
+        <remap from="camera_info" to="/d455/color/camera_info"/>
+  </node>
+  
 </launch>
