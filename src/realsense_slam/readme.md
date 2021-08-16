@@ -1,6 +1,6 @@
-Перед рослаунчами нужно прописать 
+Реквваерментс
 
-    export TURTLEBOT3_MODEL=waffle
+    https://github.com/ros-perception/depthimage_to_laserscan
 
 Первый 
 
