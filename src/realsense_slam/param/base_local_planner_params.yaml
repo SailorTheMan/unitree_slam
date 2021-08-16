@@ -17,7 +17,7 @@ TrajectoryPlannerROS:
   yaw_goal_tolerance: 0.05
 
 # Differential-drive robot configuration
-  holonomic_robot: true
+  holonomic_robot: false
 
 # Forward Simulation Parameters
   sim_time: 0.8

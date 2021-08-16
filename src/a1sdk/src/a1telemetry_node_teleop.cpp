@@ -232,7 +232,7 @@ void Custom::RobotControl(ROS_Publishers rospub)
 
     motiontime += 2;
     udp.GetRecv(state);
-    printf("%d   %f\n", motiontime, state.imu.quaternion[2]);
+    // printf("%d   %f\n", motiontime, state.imu.quaternion[2]);
 
     cmd.forwardSpeed = 0.0f;
     cmd.sideSpeed = 0.0f;
@@ -245,9 +245,9 @@ void Custom::RobotControl(ROS_Publishers rospub)
     cmd.yaw = 0;
 
 
-    cmd.forwardSpeed = teleop_cmd.linear.x / 5.0f;
-    cmd.sideSpeed = teleop_cmd.linear.y / 5.0f;
-    cmd.rotateSpeed = teleop_cmd.angular.z / 10.0f;
+    cmd.forwardSpeed = teleop_cmd.linear.x;
+    cmd.sideSpeed = teleop_cmd.linear.y;
+    cmd.rotateSpeed = teleop_cmd.angular.z;
 
     if (ros::ok())
         SendToROS(this, rospub);

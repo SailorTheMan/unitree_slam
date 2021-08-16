@@ -44,5 +44,9 @@
       <arg name="clip_distance"         value="$(arg clip_distance)"/>
     </include>
   </group>
-  <node pkg="tf" type="static_transform_publisher" name="t265_to_d400" args="0 0 0 0 -0.29 0 /$(arg tf_prefix_camera1)_link /$(arg tf_prefix_camera2)_link 100"/>
+
+  <node pkg="tf" type="static_transform_publisher" name="t265_to_d400" args="0.02 0 -0.7 0 0.17 0 /$(arg tf_prefix_camera1)_link /$(arg tf_prefix_camera2)_link 100"/>
+  <node name="teleoperation_node" pkg="a1sdk" type="a1_telemetry_teleop" output="screen"/>
+
+
 </launch>
