@@ -11,7 +11,7 @@
   <arg name="clip_distance"             default="7"/>
 
   <group ns="$(arg camera)">
-    <include file="$(find realsense_camera)/launch/includes/nodelet.launch.xml">
+    <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml">
       <arg name="device_type"           value="$(arg device_type_camera)"/>
       <arg name="serial_no"             value="$(arg serial_no_camera)"/>
       <arg name="tf_prefix"		          value="$(arg tf_prefix_camera)"/>
@@ -23,6 +23,5 @@
       <arg name="clip_distance"         value="$(arg clip_distance)"/>
     </include>
   </group>
-  <node pkg="tf" type="static_transform_publisher" name="odom_to_base" args="0 0 0 0 0 0 /odom /base"/>
-  <node pkg="tf" type="static_transform_publisher" name="base_to_d455" args="0 0 0 0 0 0 /base /$(arg tf_prefix_camera)_link 100"/>
+  <node pkg="tf" type="static_transform_publisher" name="base_to_d455" args="0.27 0 0 0 0 0 /base /$(arg tf_prefix_camera)_link 100"/>
 </launch>

@@ -239,7 +239,7 @@ void Custom::RobotControl(ROS_Publishers rospub)
     cmd.rotateSpeed = 0.0f;
     cmd.bodyHeight = 0.0f;
 
-    cmd.mode = 2;      // 0:idle, default stand      1:forced stand     2:walk continuously
+    cmd.mode = 0;      // 0:idle, default stand      1:forced stand     2:walk continuously
     cmd.roll  = 0;
     cmd.pitch = 0;
     cmd.yaw = 0;
@@ -256,10 +256,7 @@ void Custom::RobotControl(ROS_Publishers rospub)
 
 int main(int argc, char **argv) 
 {
-    std::cout << "Communication level is set to HIGH-level." << std::endl
-              << "WARNING: Make sure the robot is standing on the ground." << std::endl
-              << "Press Enter to continue..." << std::endl;
-    std::cin.ignore();
+    
 
     NOdom.worldX = 0;
     NOdom.worldY = 0;
@@ -290,6 +287,8 @@ int main(int argc, char **argv)
     ros::Subscriber cmd_vel_sub = nh.subscribe("cmd_vel", 1000, cmd_velCallback);
 
 
+
+
     /* ROS structure construction for loop */
     ROS_Publishers rospub;      // a structure to pass into loop control
     rospub.chatter = &chatter_pub;
@@ -312,6 +311,11 @@ int main(int argc, char **argv)
     Custom custom(HIGHLEVEL);
     // Custom lowCustom(LOWLEVEL);
     // InitEnvironment();
+
+    std::cout << "Communication level is set to HIGH-level." << std::endl
+              << "WARNING: Make sure the robot is standing on the ground." << std::endl
+              << "Press Enter to continue..." << std::endl;
+    std::cin.ignore();
     LoopFunc loop_control("control_loop", custom.dt,    boost::bind(&Custom::RobotControl, &custom, rospub));
     LoopFunc loop_udpSend("udp_send",     custom.dt, 3, boost::bind(&Custom::UDPSend,      &custom));
     LoopFunc loop_udpRecv("udp_recv",     custom.dt, 3, boost::bind(&Custom::UDPRecv,      &custom));
