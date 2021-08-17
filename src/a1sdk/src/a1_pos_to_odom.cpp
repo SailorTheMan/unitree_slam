@@ -57,9 +57,6 @@ public:
         lastAccels.x = 0.0;
         lastAccels.y = 0.0;
         lastAccels.z = 0.0;
-
-
-        
     }
 
 
