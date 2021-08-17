@@ -6,7 +6,10 @@
 
   <node name="teleoperation_node" pkg="a1sdk" type="a1_telemetry_teleop" output="screen"/>
 
-  <node name="pos_to_odom" pkg="a1sdk" type="pos_to_odom" output="screen">
-    <remap from="fused_odom" to="/odom"/>
-  </node>
+  <node name="pos_to_odom" pkg="a1sdk" type="pos_to_odom" output="screen" />
+
+  <include file="$(find realsense_slam)/launch/realsense_bringup.launch" />
+  <include file="$(find realsense_slam)/launch/rtabmap.launch" />
+  <include file="$(find realsense_slam)/launch/move_base.launch" />
+
 </launch>
