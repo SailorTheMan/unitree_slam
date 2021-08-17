@@ -1,5 +1,4 @@
 <launch>
-  <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
   <arg name="open_rviz" default="true"/>
   <arg name="rtabmapviz" default="false"/>
   <arg name="move_forward_only" default="false"/>
@@ -13,7 +12,7 @@
 
 
   <group ns="rtabmap">
-    <node if="$(eval model=='waffle')" pkg="rtabmap_ros" type="rgbd_sync" name="rgbd_sync" output="screen">
+    <node  pkg="rtabmap_ros" type="rgbd_sync" name="rgbd_sync" output="screen">
       <remap from="rgb/image"         to="/d455/color/image_raw"/>
       <remap from="depth/image"       to="/d455/depth/image_rect_raw"/>
       <remap from="rgb/camera_info"   to="/d455/color/camera_info"/>
@@ -24,8 +23,7 @@
       <param name="frame_id"            type="string" value="base"/>
       <param name="subscribe_rgb"   type="bool" value="false"/>
       <param name="subscribe_depth" type="bool" value="false"/>
-      <param     if="$(eval model=='waffle')" name="subscribe_rgbd" type="bool" value="true"/>
-      <param unless="$(eval model=='waffle')" name="subscribe_rgbd" type="bool" value="false"/>
+      <param name="subscribe_rgbd" type="bool" value="true"/>
       <param name="subscribe_scan"      type="bool"   value="true"/>
       <param name="approx_sync"         type="bool"   value="true"/>
       
@@ -36,7 +34,7 @@
 	
       <!-- inputs -->
       <remap from="scan"            to="/scan"/>
-      <remap from="odom"            to="/t265/odom/sample"/>
+      <remap from="odom"            to="/odom"/>
       <remap from="rgbd_image"       to="rgbd_image"/>
 
       <!-- output -->
