@@ -24,6 +24,8 @@ public:
     bool recvFlagIMU;
     bool recvFlagPoint;
 
+    geometry_msgs::Vector3 lastAccels;
+
     ros::Time lastTimeStamp;
     geometry_msgs::PointStamped lastRecPoint;
     sensor_msgs::Imu lastRecIMU;
@@ -46,6 +48,10 @@ public:
 
         worldCoords.x = 0.0;
         worldCoords.y = 0.0;
+
+        lastAccels.x = 0.0;
+        lastAccels.y = 0.0;
+        lastAccels.z = 0.0;
         
     }
 
@@ -109,15 +115,21 @@ public:
         worldCoords.z = fixed_msg.point.z;
         std::cout << worldCoords << std::endl;
 
-
+        double dt = lastRecIMU.header.stamp.toSec() - lastTimeStamp.toSec();
+        
         odom_msgs.pose.pose.position = worldCoords;
         odom_msgs.pose.pose.orientation = lastRecIMU.orientation;
         odom_msgs.twist.twist.angular = lastRecIMU.angular_velocity;
-        odom_msgs.twist.twist.linear = lastRecIMU.linear_acceleration;
+
+        odom_msgs.twist.twist.linear.x = (lastRecIMU.linear_acceleration.x - lastAccels.x) * dt;
+        odom_msgs.twist.twist.linear.y = (lastRecIMU.linear_acceleration.y - lastAccels.y) * dt;
+        odom_msgs.twist.twist.linear.z = 0.0; // not enough data
+
         odom_msgs.header = fixed_msg.header;
 
         lastFixedX = fixed_msg.point.x;
         lastFixedY = fixed_msg.point.y;
+        lastAccels = lastRecIMU.linear_acceleration;
 
         Publish(odom_msgs);
         
