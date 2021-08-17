@@ -21,6 +21,9 @@ public:
     double nakopX;
     double nakopY;
 
+    double velX;
+    double velY;
+
     bool recvFlagIMU;
     bool recvFlagPoint;
 
@@ -39,6 +42,8 @@ public:
         lastY = 0;
         nakopX = 0;
         nakopY = 0;
+        velX = 0;
+        velY = 0;
 
         recvFlagIMU = false;
         recvFlagPoint = false;
@@ -52,6 +57,8 @@ public:
         lastAccels.x = 0.0;
         lastAccels.y = 0.0;
         lastAccels.z = 0.0;
+
+
         
     }
 
@@ -117,13 +124,15 @@ public:
         // /std::cout << worldCoords << std::endl;
 
         double dt = lastRecIMU.header.stamp.toSec() - lastTimeStamp.toSec();
-        
+
         odom_msgs.pose.pose.position = worldCoords;
         odom_msgs.pose.pose.orientation = lastRecIMU.orientation;
         odom_msgs.twist.twist.angular = lastRecIMU.angular_velocity;
 
-        odom_msgs.twist.twist.linear.x = (lastRecIMU.linear_acceleration.x - lastAccels.x) * dt;
-        odom_msgs.twist.twist.linear.y = (lastRecIMU.linear_acceleration.y - lastAccels.y) * dt;
+        velX += (lastRecIMU.linear_acceleration.x - lastAccels.x) * dt;
+        velY += (lastRecIMU.linear_acceleration.y - lastAccels.y) * dt;
+        odom_msgs.twist.twist.linear.x = velX;
+        odom_msgs.twist.twist.linear.y = velY;
         odom_msgs.twist.twist.linear.z = 0.0; // not enough data
 
         odom_msgs.header = fixed_msg.header;
