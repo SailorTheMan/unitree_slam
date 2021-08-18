@@ -139,17 +139,11 @@
 
     <!-- <xacro:stairs stairs="15" xpos="0" ypos="2.0" zpos="0" /> -->
 
-    <xacro:include filename="$(find realsense_ros_gazebo)/xacro/tracker.xacro"/>
-
-    <xacro:realsense_T265 sensor_name="t265" parent_link="trunk" rate="30.0">
-        <origin rpy="0 0 0" xyz="0 0 0.2"/>
-    </xacro:realsense_T265>
-
     <xacro:include filename="$(find realsense_ros_gazebo)/xacro/depthcam.xacro"/>
 
-<xacro:realsense_d435 sensor_name="d455" parent_link="trunk" rate="10">
-  <origin rpy="0 0 0 " xyz="0.25 0 0.0"/>
-</xacro:realsense_d435>
-    
+    <xacro:realsense_d435 sensor_name="d455" parent_link="trunk" rate="10">
+        <origin rpy="0 0 0" xyz="0.25 0 0.0"/>
+    </xacro:realsense_d435>
+        
 
 </robot>
