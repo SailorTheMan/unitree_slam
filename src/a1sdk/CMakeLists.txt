@@ -8,13 +8,6 @@ add_compile_options(-std=c++11)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 
-list(APPEND CMAKE_PREFIX_PATH /opt/ros/melodic/share/)
-list(APPEND CMAKE_MODULE_PATH /opt/ros/melodic/share/)
-set(roscpp_DIR /opt/ros/melodic/share/roscpp/cmake/)
-set(rospy_DIR /opt/ros/melodic/share/rospy/cmake)
-
-# Verify
-message(STATUS "CMAKE_MODULE_PATH=${CMAKE_PREFIX_PATH}")
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
@@ -148,25 +141,22 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME}_node src/a1telemetry_node.cpp)
+add_executable(${PROJECT_NAME}_node src/telemetry_hl_node.cpp)
 target_link_libraries(${PROJECT_NAME}_node ${EXTRA_LIBS} ${catkin_LIBRARIES})
 
-add_executable(ll_${PROJECT_NAME}_node src/a1_lltelemetry_node.cpp)
+add_executable(ll_${PROJECT_NAME}_node src/telemetry_ll_node.cpp)
 target_link_libraries(ll_${PROJECT_NAME}_node ${EXTRA_LIBS} ${catkin_LIBRARIES})
 
-add_executable(rpyToEuler_node src/rpyToEuler.cpp)
+add_executable(rpyToEuler_node src/quatToEuler.cpp)
 target_link_libraries(rpyToEuler_node ${EXTRA_LIBS} ${catkin_LIBRARIES})
-
-add_executable(a1_odom_fixer_node src/a1_odom_fixer.cpp)
-target_link_libraries(a1_odom_fixer_node ${EXTRA_LIBS} ${catkin_LIBRARIES})
 
 add_executable(draw_steps src/draw_steps.cpp)
 target_link_libraries(draw_steps ${EXTRA_LIBS} ${catkin_LIBRARIES})
 
-add_executable(pos_to_odom src/a1_pos_to_odom.cpp)
+add_executable(pos_to_odom src/point_to_odom.cpp)
 target_link_libraries(pos_to_odom ${EXTRA_LIBS} ${catkin_LIBRARIES})
 
-add_executable(a1_telemetry_teleop src/a1telemetry_node_teleop.cpp)
+add_executable(a1_telemetry_teleop src/telemetry_teleop_node.cpp)
 target_link_libraries(a1_telemetry_teleop ${EXTRA_LIBS} ${catkin_LIBRARIES})
 
 ## Rename C++ executable without prefix
