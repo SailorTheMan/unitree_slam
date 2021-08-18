@@ -8,13 +8,6 @@ add_compile_options(-std=c++11)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 
-list(APPEND CMAKE_PREFIX_PATH /opt/ros/melodic/share/)
-list(APPEND CMAKE_MODULE_PATH /opt/ros/melodic/share/)
-set(roscpp_DIR /opt/ros/melodic/share/roscpp/cmake/)
-set(rospy_DIR /opt/ros/melodic/share/rospy/cmake)
-
-# Verify
-message(STATUS "CMAKE_MODULE_PATH=${CMAKE_PREFIX_PATH}")
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
