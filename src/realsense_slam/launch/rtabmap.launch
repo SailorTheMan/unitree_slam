@@ -68,14 +68,15 @@
  
   </group>
 
-
-
   <node pkg="nodelet" type="nodelet"
         args="standalone depthimage_to_laserscan/DepthImageToLaserScanNodelet"
         name="dc2scan">
         <param name="output_frame_id" type="str" value="d455_link" />
         <remap from="image" to="/d455/depth/image_rect_raw"/>
         <remap from="camera_info" to="/d455/color/camera_info"/>
+        <param name="scan_height" value="40"/>
+        <param name="range_max" value="7.0"/>
+        
   </node>
   
 </launch>

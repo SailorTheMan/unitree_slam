@@ -40,13 +40,14 @@ using namespace UNITREE_LEGGED_SDK;
 
 // FR FL RR RL
 std::string footFrames[4] = {"FR_foot", "FL_foot", "RR_foot", "RL_foot"};
+int time_stop = 0;
 
 static geometry_msgs::Twist teleop_cmd;
 
 void cmd_velCallback(const geometry_msgs::Twist msg)
 {
     ROS_INFO("I heard: [%f]", msg.linear.x);
- 
+    time_stop = 0;
     teleop_cmd = msg;
 }
 
@@ -240,6 +241,7 @@ void Custom::RobotControl(ROS_Publishers rospub)
 {
     if (!ros::ok()) exit(1) ;       // probably forbidden technique, but it works 
 
+    time_stop += 2;
     motiontime += 2;
     udp.GetRecv(state);
     // printf("%d   %f\n", motiontime, state.imu.quaternion[2]);
@@ -249,7 +251,13 @@ void Custom::RobotControl(ROS_Publishers rospub)
     cmd.rotateSpeed = 0.0f;
     cmd.bodyHeight = 0.0f;
 
-    cmd.mode = 2;      // 0:idle, default stand      1:forced stand     2:walk continuously
+    // cmd.mode = 2;      // 0:idle, default stand      1:forced stand     2:walk continuously
+    if (time_stop > 5000){
+        cmd.mode = 0;
+    } 
+    else{
+        cmd.mode = 2;
+    }
     cmd.roll  = 0;
     cmd.pitch = 0;
     cmd.yaw = 0;
