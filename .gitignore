@@ -5,3 +5,4 @@
 .catkin_workspace
 logs/
 /src/lidar_slam/bagfiles/*
+*.bag
