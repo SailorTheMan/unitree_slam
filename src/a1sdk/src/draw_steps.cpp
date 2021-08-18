@@ -35,7 +35,7 @@ public:
     Forces()
     {
         seq = 0;
-        frame = "trunk";
+        frame = "base";
     }
 
     void updateLegStatus()

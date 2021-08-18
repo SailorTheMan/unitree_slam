@@ -11,6 +11,8 @@ Use of this source code is governed by the MPL-2.0 license, see LICENSE.
     // > IMU data                       \/
     // > body height                    \/
     // > foot/forward speed             \both/
+    // > kek
+    // > switch modes
 
     // FIXME:
     // > incorrect message stamps       \/
@@ -38,13 +40,14 @@ using namespace UNITREE_LEGGED_SDK;
 
 // FR FL RR RL
 std::string footFrames[4] = {"FR_foot", "FL_foot", "RR_foot", "RL_foot"};
+int time_stop = 0;
 
 static geometry_msgs::Twist teleop_cmd;
 
 void cmd_velCallback(const geometry_msgs::Twist msg)
 {
     ROS_INFO("I heard: [%f]", msg.linear.x);
- 
+    time_stop = 0;
     teleop_cmd = msg;
 }
 
@@ -95,7 +98,6 @@ float lastForwVelocity = 0.0;
 float lastSideVelocity = 0.0;
 NaiveOdometry NOdom;
 
-
 class Custom
 {
 public:
@@ -130,11 +132,20 @@ void fillImuData(HighState &state, sensor_msgs::Imu &imuData, ROS_Publishers &ro
         imuData.linear_acceleration.x = (state.sideSpeed - lastSideVelocity) / 0.02;
     } 
     
+    if (state.imu.quaternion[0] == 0 && state.imu.quaternion[1] == 0 && state.imu.quaternion[2] == 0 && state.imu.quaternion[3] == 0)
+    {
+        imuData.orientation.w = 1;
+        imuData.orientation.x = 0;
+        imuData.orientation.y = 0;
+        imuData.orientation.z = 0;
+    }
+    else
+    {
     imuData.orientation.w = state.imu.quaternion[0];
     imuData.orientation.x = state.imu.quaternion[1];
     imuData.orientation.y = state.imu.quaternion[2];
     imuData.orientation.z = state.imu.quaternion[3];
-    
+    }
     imuData.header.seq = rospub.seq;
     imuData.header.frame_id = "imu_link";
     imuData.header.stamp = ros::Time::now();
@@ -230,24 +241,56 @@ void Custom::RobotControl(ROS_Publishers rospub)
 {
     if (!ros::ok()) exit(1) ;       // probably forbidden technique, but it works 
 
+    time_stop += 2;
     motiontime += 2;
     udp.GetRecv(state);
-    printf("%d   %f\n", motiontime, state.imu.quaternion[2]);
+    // printf("%d   %f\n", motiontime, state.imu.quaternion[2]);
 
     cmd.forwardSpeed = 0.0f;
     cmd.sideSpeed = 0.0f;
     cmd.rotateSpeed = 0.0f;
     cmd.bodyHeight = 0.0f;
 
-    cmd.mode = 2;      // 0:idle, default stand      1:forced stand     2:walk continuously
+    // cmd.mode = 2;      // 0:idle, default stand      1:forced stand     2:walk continuously
+    if (time_stop > 5000){
+        cmd.mode = 0;
+    } 
+    else{
+        cmd.mode = 2;
+    }
     cmd.roll  = 0;
     cmd.pitch = 0;
     cmd.yaw = 0;
 
+    if ((teleop_cmd.linear.x >= 0) && (teleop_cmd.linear.x <= 1)){
+        cmd.forwardSpeed = teleop_cmd.linear.x;
+    } else if ((teleop_cmd.linear.x < 0) && (teleop_cmd.linear.x >= -0.7)) {
+        cmd.forwardSpeed = teleop_cmd.linear.x / 0.7f;
+    }
+    else {
+        ROS_WARN("forward speed out of range: [%f]", teleop_cmd.linear.x);
+    }
 
-    cmd.forwardSpeed = teleop_cmd.linear.x / 5.0f;
-    cmd.sideSpeed = teleop_cmd.linear.y / 5.0f;
-    cmd.rotateSpeed = teleop_cmd.angular.z / 10.0f;
+    if ((teleop_cmd.linear.y >= -0.4) && (teleop_cmd.linear.y <= 0.4)){
+        cmd.sideSpeed = teleop_cmd.linear.y / 0.4f;
+    }
+    else {
+        ROS_WARN("side speed out of range: [%f]", teleop_cmd.linear.y);
+    }
+
+
+    if ((teleop_cmd.angular.z >= -2.09) && (teleop_cmd.angular.z <= 2.09)){
+        cmd.rotateSpeed = teleop_cmd.angular.z / 2.09f;
+    }
+    else {
+        ROS_WARN("rotate speed out of range: [%f]", teleop_cmd.linear.y);
+    }
+
+
+
+    // cmd.forwardSpeed = teleop_cmd.linear.x;
+    // cmd.sideSpeed = teleop_cmd.linear.y;
+    // cmd.rotateSpeed = teleop_cmd.angular.z;
 
     if (ros::ok())
         SendToROS(this, rospub);
@@ -256,10 +299,7 @@ void Custom::RobotControl(ROS_Publishers rospub)
 
 int main(int argc, char **argv) 
 {
-    std::cout << "Communication level is set to HIGH-level." << std::endl
-              << "WARNING: Make sure the robot is standing on the ground." << std::endl
-              << "Press Enter to continue..." << std::endl;
-    std::cin.ignore();
+    
 
     NOdom.worldX = 0;
     NOdom.worldY = 0;
@@ -290,6 +330,8 @@ int main(int argc, char **argv)
     ros::Subscriber cmd_vel_sub = nh.subscribe("cmd_vel", 1000, cmd_velCallback);
 
 
+
+
     /* ROS structure construction for loop */
     ROS_Publishers rospub;      // a structure to pass into loop control
     rospub.chatter = &chatter_pub;
@@ -312,6 +354,11 @@ int main(int argc, char **argv)
     Custom custom(HIGHLEVEL);
     // Custom lowCustom(LOWLEVEL);
     // InitEnvironment();
+
+    std::cout << "Communication level is set to HIGH-level." << std::endl
+              << "WARNING: Make sure the robot is standing on the ground." << std::endl
+              << "Press Enter to continue..." << std::endl;
+    std::cin.ignore();
     LoopFunc loop_control("control_loop", custom.dt,    boost::bind(&Custom::RobotControl, &custom, rospub));
     LoopFunc loop_udpSend("udp_send",     custom.dt, 3, boost::bind(&Custom::UDPSend,      &custom));
     LoopFunc loop_udpRecv("udp_recv",     custom.dt, 3, boost::bind(&Custom::UDPRecv,      &custom));
