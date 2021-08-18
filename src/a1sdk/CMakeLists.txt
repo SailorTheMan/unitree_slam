@@ -160,7 +160,7 @@ target_link_libraries(rpyToEuler_node ${EXTRA_LIBS} ${catkin_LIBRARIES})
 add_executable(draw_steps src/draw_steps.cpp)
 target_link_libraries(draw_steps ${EXTRA_LIBS} ${catkin_LIBRARIES})
 
-add_executable(pos_to_odom src/a1_pos_to_odom.cpp)
+add_executable(pos_to_odom src/point_to_odom.cpp)
 target_link_libraries(pos_to_odom ${EXTRA_LIBS} ${catkin_LIBRARIES})
 
 add_executable(a1_telemetry_teleop src/telemetry_teleop_node.cpp)
