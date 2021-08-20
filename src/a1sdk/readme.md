@@ -1,6 +1,6 @@
 # Overview:
 
-This papckage consists of several ROS nodes designed to work with Unitree A1 quadruped robot through its original SDK. 
+This package consists of several ROS nodes designed to work with Unitree A1 quadruped robot through its original SDK. Nodes use LCM to communicate with the robot, so they can be run on any machine in it's wifi network. 
 
 `telemetry_hl_node` - Runs SDK 'walk' example or nothing (useful to collect telemetry while operating with wireless controller) depending on the argument? collects and publishes robot high-level telemetry to corresponding topics. The telemetry includes:
 - IMU data
@@ -18,9 +18,11 @@ This papckage consists of several ROS nodes designed to work with Unitree A1 qua
 
 `quatToEuler` - A simple tool to republish IMU orienattion quaternion in euler angles for debugging.
 
+Note: to see some of the telemtry data in rviz the A1 xacro description among with TF data required. You can launch joint_ & robot_ state_publisher's for manual joint positions as in `a1_telemetry.launch`
+
 # Requrements:
 
-    unitree_legged_sdk
+unitree_legged_sdk
 
     
 

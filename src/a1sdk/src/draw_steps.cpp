@@ -1,3 +1,23 @@
+/****************************************************************************
+
+Visualizes each foot ground contact in rviz with points.
+
+Nodes:
+subscribed /feet_polygon (message of type eometry_msgs::PolygonStamped)
+subscribed /FR_force (message of type geometry_msgs::WrenchStamped)
+subscribed /FL_force (message of type geometry_msgs::WrenchStamped)
+subscribed /RR_force (message of type geometry_msgs::WrenchStamped)
+subscribed /RL_force (message of type geometry_msgs::WrenchStamped)
+
+published /fr_step (message of type geometry_msgs::PointStamped)
+published /fl_step (message of type geometry_msgs::PointStamped)
+published /rr_step (message of type geometry_msgs::PointStamped)
+published /rl_step (message of type geometry_msgs::PointStamped)
+
+published /fused_odometry (message oftype nav_msgs::Odometry)
+
+****************************************************************************/
+
 #include <math.h>
 #include <iostream>
 #include <unistd.h>
