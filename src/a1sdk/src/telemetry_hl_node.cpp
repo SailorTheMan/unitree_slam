@@ -37,7 +37,7 @@ std::string footFrames[4] = {"FR_foot", "FL_foot", "RR_foot", "RL_foot"};
 class ROS_Publishers
 {
 public:
-    ros::Publisher *chatter;
+    ros::Publisher *robot_mode;
     ros::Publisher *leg_force_pub[4];
     ros::Publisher *leg_velocity_pub[4];
     ros::Publisher *imu_pub;
@@ -47,14 +47,22 @@ public:
     int seq;
 };
 
+// A class to calculate odometry using SDK body speed. Didn't work very well
 class NaiveOdometry         // WORK IN PROGRESS
 {
 public:
     geometry_msgs::Point position;
     float worldX;
     float worldY;
-    float phi;                      // rads ??
-    const float dt = 0.02; 
+    float phi;                      // rads 
+    const float dt = 0.02;          // taken from 'Custom' class
+
+    NaiveOdometry()
+    {
+        worldX = 0;
+        worldY = 0;
+        phi = 0;
+    }
 
     geometry_msgs::Point Update(HighState& state)
     {
@@ -63,8 +71,9 @@ public:
         if (phi > 3.1415) phi = -3.1415;
         if (phi < -3.1415) phi = 3.1415;
 
-        worldX += 0.001 * (cos(phi) * state.forwardSpeed * fwdCoef - sin(phi) * state.sideSpeed * 0.4);  // or smthng like that
-        worldY += 0.001 * (sin(phi) * state.forwardSpeed * fwdCoef + cos(phi) * state.sideSpeed * 0.4); 
+        double scaler = 0.001;
+        worldX += scaler * (cos(phi) * state.forwardSpeed * fwdCoef - sin(phi) * state.sideSpeed * 0.4);  // or smthng like that
+        worldY += scaler * (sin(phi) * state.forwardSpeed * fwdCoef + cos(phi) * state.sideSpeed * 0.4); 
 
         position.x = worldX;
         position.y = worldY;
@@ -80,7 +89,7 @@ float lastForwVelocity = 0.0;
 float lastSideVelocity = 0.0;
 NaiveOdometry NOdom;
 
-
+// A base A1 interface class to communicate with Unitree SDK
 class Custom
 {
 public:
@@ -99,6 +108,7 @@ public:
     float dt = 0.002;     // 0.001~0.01
 };
 
+// fills IMU message
 void fillImuData(HighState &state, sensor_msgs::Imu &imuData, ROS_Publishers &rospub)
 {
     //memcpy?
@@ -107,7 +117,7 @@ void fillImuData(HighState &state, sensor_msgs::Imu &imuData, ROS_Publishers &ro
     imuData.linear_acceleration.z = state.imu.accelerometer[2];
 
     imuData.angular_velocity.z = state.rotateSpeed;
-    // i dont remember why i did this
+    // i dont remember why i did this, you should probably consider commenting following lines
     imuData.linear_acceleration.y = (state.forwardSpeed - lastForwVelocity) / 0.02;         // TODO: pass dt here
     imuData.linear_acceleration.x = (state.sideSpeed - lastSideVelocity) / 0.02;
  
@@ -124,6 +134,7 @@ void fillImuData(HighState &state, sensor_msgs::Imu &imuData, ROS_Publishers &ro
     imuData.header.stamp = ros::Time::now();
 }
 
+// fills polygon message with each leg relative position 
 void fillPolyData(HighState &state, geometry_msgs::PolygonStamped &legPolygon, ROS_Publishers &rospub)
 {   
     for (int leg = 0; leg < 4; leg++)
@@ -137,20 +148,20 @@ void fillPolyData(HighState &state, geometry_msgs::PolygonStamped &legPolygon, R
     legPolygon.header.stamp = ros::Time::now();
 }
 
-
+// a function to hide all ROS calls in the control loop
 void SendToROS(Custom *a1Interface, ROS_Publishers rospub)
 {
     HighState state = a1Interface->state;
     // Declaring messages
-    std_msgs::String msg;                       // chatter
+    std_msgs::String mode_msg;                       // robot_mode
     geometry_msgs::WrenchStamped legForces[4];  // foot forces
     geometry_msgs::WrenchStamped legVels[4];
     geometry_msgs::PolygonStamped legPolygon;
     geometry_msgs::PointStamped errPos;
     geometry_msgs::PointStamped nOdom;
     sensor_msgs::Imu imuData;
-    // Pub mode to /chatter
-    msg.data = std::to_string(a1Interface->state.mode);
+    // Pub mode to /robot_mode
+    mode_msg.data = std::to_string(a1Interface->state.mode);
     // Filling forces and vels for each leg
     // FR FL RR RL
     for (int leg = 0; leg < 4; leg++)
@@ -191,7 +202,7 @@ void SendToROS(Custom *a1Interface, ROS_Publishers rospub)
         rospub.leg_force_pub[leg]->publish(legForces[leg]);
         rospub.leg_velocity_pub[leg]->publish(legVels[leg]);
     }
-    rospub.chatter->publish(msg);
+    rospub.robot_mode->publish(mode_msg);
     rospub.imu_pub->publish(imuData);
     rospub.leg_pose->publish(legPolygon);
     rospub.errPos_pub->publish(errPos);
@@ -213,7 +224,7 @@ void Custom::UDPSend()
 
 void Custom::RobotControl(ROS_Publishers rospub) 
 {
-    if (!ros::ok()) exit(1) ;       // probably forbidden technique, but it works 
+    if (!ros::ok()) exit(1) ;       // probably a forbidden technique, but it works 
 
     motiontime += 2;
     udp.GetRecv(state);
@@ -303,15 +314,10 @@ int main(int argc, char **argv)
               << "Press Enter to continue..." << std::endl;
     std::cin.ignore();
 
-    NOdom.worldX = 0;
-    NOdom.worldY = 0;
-    NOdom.phi = 0;
-
-    ros::init(argc, argv, "a1Telemetry");
+    ros::init(argc, argv, "a1_Telemetry");
     ros::NodeHandle nh;
-    ros::Publisher chatter_pub;
     //  Debug
-    chatter_pub = nh.advertise<std_msgs::String>("chatter", 1000);
+    ros::Publisher robot_mode_pub = nh.advertise<std_msgs::String>("robot_mode", 1000);
     // Forces
     ros::Publisher FRf_pub = nh.advertise<geometry_msgs::WrenchStamped>("FR_force", 1000);
     ros::Publisher FLf_pub = nh.advertise<geometry_msgs::WrenchStamped>("FL_force", 1000);
@@ -329,11 +335,10 @@ int main(int argc, char **argv)
     ros::Publisher errPos_pub = nh.advertise<geometry_msgs::PointStamped>("odom_error", 1000);
     ros::Publisher nOdom_pub = nh.advertise<geometry_msgs::PointStamped>("nodom", 1000);
     
-    
 
     /* ROS structure construction for loop */
     ROS_Publishers rospub;      // a structure to pass into loop control
-    rospub.chatter = &chatter_pub;
+    rospub.robot_mode = &robot_mode_pub;
     rospub.leg_force_pub[0] = &FRf_pub;    // packing all neccessary ros objects together
     rospub.leg_force_pub[1] = &FLf_pub;
     rospub.leg_force_pub[2] = &RRf_pub;
@@ -349,7 +354,6 @@ int main(int argc, char **argv)
     rospub.seq = 0;
 
     Custom custom(HIGHLEVEL);
-    // Custom lowCustom(LOWLEVEL);
     // InitEnvironment();
     LoopFunc loop_control("control_loop", custom.dt,    boost::bind(&Custom::RobotControl, &custom, rospub));
     LoopFunc loop_udpSend("udp_send",     custom.dt, 3, boost::bind(&Custom::UDPSend,      &custom));

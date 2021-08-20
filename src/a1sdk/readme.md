@@ -10,7 +10,7 @@ This package consists of several ROS nodes designed to work with Unitree A1 quad
 
 `telemetry_ll_node` - Publishes low-level telemetry like each motor position and torgue. Useless at the moment since with no LL input the robot would just collapse
 
-`telemetry_teleop_node` - Publishes HL telemetry and recieves /cmd_vel messages allowing to teleoperate the robot.
+`telemetry_teleop_node` - Publishes HL telemetry and recieves /cmd_vel messages allowing to teleoperate the robot (manually or with a planner).
 
 `draw_steps` - A tool that takes foot sensors and leg positions polygon from telemetry_hl and publishes ground contact points for each leg. 
 
@@ -23,8 +23,3 @@ Note: to see some of the telemtry data in rviz the A1 xacro description among wi
 # Requrements:
 
 unitree_legged_sdk
-
-    
-
-
-    
