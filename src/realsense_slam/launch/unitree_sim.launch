@@ -1,5 +1,4 @@
 <launch>
-    <arg name="wname" default="earth"/>
     <arg name="rname" default="a1"/>
     <arg name="robot_path" value="(find $(arg rname)_description)"/>
     <arg name="dollar" value="$"/>
@@ -7,8 +6,8 @@
     <arg name="paused" default="true"/>
     <arg name="use_sim_time" default="true"/>
     <arg name="gui" default="true"/>
-    <arg name="headless" default="false"/>
     <arg name="debug" default="false"/>
+    
     <!-- Debug mode will hung up the robot, use "true" or "false" to switch it. -->
     <arg name="user_debug" default="false"/>
     <arg name="robot_desc_file" default="$(find realsense_slam)xacro/unitree.xacro"/>

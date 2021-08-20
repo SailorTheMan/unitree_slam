@@ -1,4 +1,14 @@
+/****************************************************************************
 
+Conversion from an embedded odometry and IMU to real odometry message.
+
+Nodes:
+subscribed /odom_error (message of type geometry_msgs::PointStamped)
+subscribed /IMU_data (message of type sensor_msgs::Imu)
+
+published /fused_odometry (message oftype nav_msgs::Odometry)
+
+****************************************************************************/
 
 #include "ros/ros.h"
 #include "geometry_msgs/PointStamped.h"
@@ -90,11 +100,6 @@ public:
         lastTimeStamp = error_msg.header.stamp;
     }
 
-    geometry_msgs::PointStamped ToWorld(const geometry_msgs::PointStamped local_msg)
-    {
-
-        
-    }
 
     void Fuse()     // kinda
     {
