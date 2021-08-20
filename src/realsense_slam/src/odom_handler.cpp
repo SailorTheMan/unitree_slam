@@ -1,18 +1,8 @@
 /*
- * Copyright 2016 The Cartographer Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+  Node subscribes to odom_in topic reads data and publishes it to odom_out topic,
+  but with frame ids changed to base and odom.
+  Also it broadcasts transform between base and odom.
+*/
 
 #include <odom_handler.h>
 
@@ -38,6 +28,7 @@ void OdomHandlerNode::msgCallback(const nav_msgs::OdometryConstPtr odom_in)
 {
   if (last_published_time_.isZero() || odom_in->header.stamp > last_published_time_)
   {
+
     last_published_time_ = odom_in->header.stamp;
 
     geometry_msgs::TransformStamped tf;
