@@ -2,11 +2,11 @@
 
 ## Branch decription
 
-In this repository we have three main branches: main, unitree_realsense_slam_release and xavier-arm.
+In this repository we have three main branches: `main`, `unitree_realsense_slam_release` and `xavier-arm`.
 
-* Branch `main` contents all the work related to the realsense and lidar slam.
+* Branch `main` contains all the work related to the realsense and lidar slam.
 * Branch `unitree_realsense_slam_release` is a copy of the `main` branch, but doesn't content the work related to a lidar slam. 
-* Branch `xavier-arm` is a copy of the `main` branch, but it slightly changed to be able to build on the arm processor of the xavier.
+* Branch `xavier-arm` is a slightly changed copy of the `main` branch able to be built on ARM platform (Xavier).
   
 ## Dependencies
 
@@ -31,7 +31,7 @@ In this repository we have three main branches: main, unitree_realsense_slam_rel
 
 ### Real robot
 
-    `roslaunch realsense_slam unitree_real.launch`
+    roslaunch realsense_slam unitree_real.launch
 ### Simulation
 
-    `roslaunch realsense_slam unitree_sim.launch`
+    roslaunch realsense_slam unitree_sim.launch
