@@ -35,3 +35,7 @@ In this repository we have three main branches: `main`, `unitree_realsense_slam_
 ### Simulation
 
     roslaunch realsense_slam unitree_sim.launch
+    
+### Known issues
+
+- The 'Enter' key needs to be pressed in the launchfile termianal in order for it to start sending data. 
